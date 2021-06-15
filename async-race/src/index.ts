@@ -1,8 +1,17 @@
+import store from './api/store';
+
 import './style.scss';
+
+const renderGarage = () => `
+    <h2>Garage (${store.carsCount} cars)</h2>
+    <h3>Page #${store.page}</h3>
+    <ul class="car-list"></ul>
+`;
 
 const render = () => {
   const markup = `
     <header class="header">
+       <h1 class="hidden" >Async Race</h1>
       <button type="button" class="button header-garage-btn">garage</button>
       <button type="button" class="button header-winners-btn">winners</button>
     </header>
@@ -45,7 +54,7 @@ const render = () => {
         <button class="button reset-btn" id="reset">Reset</button>
         <button class="button generate-btn" id="generate">Generate</button>
       </div>
-      <div id="garage"></div>
+      <div id="garage">${renderGarage()}</div>
     </div>
 `;
   const app = document.createElement('div');
