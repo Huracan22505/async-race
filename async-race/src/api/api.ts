@@ -17,10 +17,15 @@ export const getCars = async (
   };
 };
 
-export const startEngine = async (
+export const getStartEngine = async (
   id: number,
 ): Promise<{ velocity: number; distance: number }> =>
   (await fetch(`${BASE_URL}/engine?id=${id}&status=started`)).json();
+
+export const getStopEngine = async (
+  id: number,
+): Promise<{ velocity: number; distance: number }> =>
+  (await fetch(`${BASE_URL}/engine?id=${id}&status=stopped`)).json();
 
 export const getDriveStatus = async (
   id: number,

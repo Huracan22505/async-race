@@ -1,6 +1,6 @@
 import refs from './shared/refs';
 import store from './api/store';
-import { startEngine, getDriveStatus } from './api/api';
+import { getStartEngine, getStopEngine, getDriveStatus } from './api/api';
 import { getDistanceBtwElements, animation } from './shared/utils';
 import './style.scss';
 
@@ -144,11 +144,9 @@ render();
 // DRIVING
 
 const startDriving = async (id: number) => {
-  const startButton = document.getElementById(
-    `start-engine-car-${id}`,
-  ) as HTMLButtonElement;
-  startButton.disabled = true;
-  startButton.classList.toggle('enabling', true);
+  const startBtn = refs.getStartBtn(id);
+  startBtn.disabled = true;
+  startBtn.classList.toggle('enabling', true);
 
   const {
     velocity,
@@ -156,19 +154,17 @@ const startDriving = async (id: number) => {
   }: {
     velocity: number;
     distance: number;
-  } = await startEngine(id);
+  } = await getStartEngine(id);
 
   const animationTime = Math.round(distance / velocity);
 
-  startButton.classList.toggle('enabling', false);
+  startBtn.classList.toggle('enabling', false);
 
-  const stopEngineBtn = document.getElementById(
-    `stop-engine-car-${id}`,
-  ) as HTMLButtonElement;
-  stopEngineBtn.disabled = false;
+  const stopBtn = refs.getStopBtn(id);
+  stopBtn.disabled = false;
 
-  const car = document.getElementById(`car-${id}`) as HTMLElement;
-  const finish = document.getElementById(`finish-${id}`) as HTMLDivElement;
+  const car = refs.getCarElem(id);
+  const finish = refs.getFinishElem(id);
   const distanceBtwElem = Math.floor(getDistanceBtwElements(car, finish)) + 100;
 
   store.animation[id] = animation(car, distanceBtwElem, animationTime);
@@ -179,11 +175,33 @@ const startDriving = async (id: number) => {
   return { success, id, animationTime };
 };
 
+const stopDriving = async (id: number) => {
+  const stopBtn = refs.getStopBtn(id);
+  stopBtn.disabled = true;
+  stopBtn.classList.toggle('enabling', true);
+
+  await getStopEngine(id);
+
+  stopBtn.classList.toggle('enabling', false);
+
+  const startBtn = refs.getStartBtn(id);
+  startBtn.disabled = false;
+
+  const car = refs.getCarElem(id);
+  car.style.transform = 'translateX(0)';
+  if (store.animation[id]) window.cancelAnimationFrame(store.animation[id].id);
+};
+
 refs.root.addEventListener('click', async event => {
   const target = <HTMLBodyElement>event.target;
 
   if (target.classList.contains('start-engine-btn')) {
     const id = Number(target.id.split('start-engine-car-')[1]);
     startDriving(id);
+  }
+
+  if (target.classList.contains('stop-engine-btn')) {
+    const id = Number(target.id.split('stop-engine-car-')[1]);
+    stopDriving(id);
   }
 });
