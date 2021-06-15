@@ -1,1 +1,3 @@
-export default {};
+export default {
+  root: document.querySelector('#root') as HTMLBodyElement,
+};

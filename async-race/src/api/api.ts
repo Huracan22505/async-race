@@ -16,3 +16,15 @@ export const getCars = async (
     count: response.headers.get('X-Total-Count'),
   };
 };
+
+export const startEngine = async (
+  id: number,
+): Promise<{ velocity: number; distance: number }> =>
+  (await fetch(`${BASE_URL}/engine?id=${id}&status=started`)).json();
+
+export const getDriveStatus = async (
+  id: number,
+): Promise<{ success: boolean }> => {
+  const res = await fetch(`${BASE_URL}/engine?id=${id}&status=drive`).catch();
+  return res.status !== 200 ? { success: false } : { ...(await res.json()) };
+};

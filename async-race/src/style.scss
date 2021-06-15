@@ -7,7 +7,7 @@ body {
   font-weight: 400;
   color: white;
 
-  background-color: black;
+  background-color: rgb(39, 34, 34);
 
   overflow-x: hidden;
 }
@@ -127,16 +127,20 @@ li {
   }
 
   .car-model {
-    padding-left: 30px;
+    margin-left: 16px;
+
+    padding: 5px;
 
     font-size: 18px;
     color: rgb(16, 147, 223);
+
+    border-left: 2px solid tomato;
   }
 }
 
-// ROAD
+// WAY
 
-.road {
+.way {
   margin-bottom: 30px;
 
   display: flex;
@@ -150,6 +154,9 @@ li {
   }
 
   .engine-panel {
+    display: flex;
+    flex-direction: column;
+
     margin-top: 16px;
     margin-right: 16px;
 
@@ -173,6 +180,8 @@ li {
   }
 
   .start-engine-btn {
+    margin-bottom: 10px;
+
     color: lawngreen;
   }
 
