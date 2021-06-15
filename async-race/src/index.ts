@@ -4,11 +4,16 @@ import {
   getCars,
   getCarById,
   getDeleteCarById,
+  getCreateCar,
   getStartEngine,
   getStopEngine,
   getDriveStatus,
 } from './api/api';
-import { getDistanceBtwElements, animation } from './shared/utils';
+import {
+  getDistanceBtwElements,
+  animation,
+  generateRandomCars,
+} from './shared/utils';
 import './style.scss';
 
 // RENDER
@@ -206,7 +211,7 @@ const stopDriving = async (id: number) => {
 };
 
 refs.root.addEventListener('click', async event => {
-  const target = <HTMLBodyElement>event.target;
+  const target = <HTMLElement>event.target;
 
   if (target.classList.contains('start-engine-btn')) {
     const id = Number(target.id.split('start-engine-car-')[1]);
@@ -246,5 +251,18 @@ refs.root.addEventListener('click', async event => {
     await updateGarage();
     const garage = document.getElementById('garage') as HTMLDivElement;
     garage.innerHTML = renderGarage();
+  }
+
+  if (target.classList.contains('generate-btn')) {
+    const generateBtn = <HTMLButtonElement>event.target;
+    generateBtn.disabled = true;
+
+    const generatedCars = generateRandomCars();
+
+    await Promise.all(generatedCars.map(async car => getCreateCar(car)));
+    await updateGarage();
+    const garage = document.getElementById('garage') as HTMLDivElement;
+    garage.innerHTML = renderGarage();
+    generateBtn.disabled = false;
   }
 });

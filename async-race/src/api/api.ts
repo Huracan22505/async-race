@@ -25,6 +25,20 @@ export const getCarById = async (
   id: number;
 }> => (await fetch(`${BASE_URL}/garage/${id}`)).json();
 
+export const getCreateCar = async (car: {
+  name: string;
+  color: string;
+}): Promise<Response> =>
+  (
+    await fetch(`${BASE_URL}/garage`, {
+      method: 'POST',
+      body: JSON.stringify(car),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  ).json();
+
 export const getDeleteCarById = async (
   id: number,
 ): Promise<{
