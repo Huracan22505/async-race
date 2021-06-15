@@ -47,18 +47,18 @@ li {
 // HEADER
 
 .header {
-  padding-top: 15px;
+  padding-top: 16px;
 
   margin-bottom: 30px;
 }
 
-.button {
+.btn {
   display: inline-block;
 
-  width: 140px;
+  width: 110px;
   height: 45px;
 
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   line-height: 45px;
   letter-spacing: 3px;
@@ -66,11 +66,14 @@ li {
 
   text-align: center;
 
+  border: none;
   border-radius: 45px;
   color: #524f4e;
   background: white;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   transition: 0.3s;
+
+  cursor: pointer;
 
   &:hover {
     background: #2ee59d;
@@ -111,4 +114,77 @@ li {
 
 .controls {
   margin-bottom: 80px;
+}
+
+// CARS
+.cars {
+  margin-top: 20px;
+
+  .car {
+    width: 100px;
+
+    padding-top: 14px;
+  }
+
+  .car-model {
+    padding-left: 30px;
+
+    font-size: 18px;
+    color: rgb(16, 147, 223);
+  }
+}
+
+// ROAD
+
+.road {
+  margin-bottom: 30px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  border-bottom: 4px solid rgb(12, 116, 110);
+
+  .car-control-container {
+    display: flex;
+  }
+
+  .engine-panel {
+    margin-top: 16px;
+    margin-right: 16px;
+
+    .engine-icon {
+      background: transparent;
+      border: 2px solid;
+      border-radius: 2px;
+
+      font-size: 22px;
+
+      cursor: pointer;
+    }
+
+    .engine-icon:disabled {
+      color: gray;
+    }
+
+    .engine-icon.enabling {
+      color: yellow;
+    }
+  }
+
+  .start-engine-btn {
+    color: lawngreen;
+  }
+
+  .stop-engine-btn {
+    color: red;
+  }
+
+  .finish {
+    margin-top: -80px;
+
+    transform: translateY(28px) translateX(-120px);
+
+    font-size: 60px;
+  }
 }
