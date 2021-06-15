@@ -17,6 +17,14 @@ export const getCars = async (
   };
 };
 
+export const getCarById = async (
+  id: string,
+): Promise<{
+  name: string;
+  color: string;
+  id: number;
+}> => (await fetch(`${BASE_URL}/garage/${id}`)).json();
+
 export const getStartEngine = async (
   id: number,
 ): Promise<{ velocity: number; distance: number }> =>

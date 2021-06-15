@@ -1,6 +1,11 @@
 import refs from './shared/refs';
 import store from './api/store';
-import { getStartEngine, getStopEngine, getDriveStatus } from './api/api';
+import {
+  getCarById,
+  getStartEngine,
+  getStopEngine,
+  getDriveStatus,
+} from './api/api';
 import { getDistanceBtwElements, animation } from './shared/utils';
 import './style.scss';
 
@@ -121,7 +126,7 @@ const render = () => {
             value="#ffffff"
             disabled
           />
-          <button class="btn" id="update-submit" type="submit">
+          <button class="btn" id="update-btn" type="submit">
             Update
           </button>
         </form>
@@ -203,5 +208,27 @@ refs.root.addEventListener('click', async event => {
   if (target.classList.contains('stop-engine-btn')) {
     const id = Number(target.id.split('stop-engine-car-')[1]);
     stopDriving(id);
+  }
+
+  if (target.classList.contains('select-btn')) {
+    let selectedCar = null;
+
+    const carUpdName = document.getElementById(
+      'update-name',
+    ) as HTMLInputElement;
+    const carUpdColor = document.getElementById(
+      'update-color',
+    ) as HTMLInputElement;
+    const updateBtn = document.getElementById(
+      'update-btn',
+    ) as HTMLButtonElement;
+
+    selectedCar = await getCarById(target.id.split('select-car-')[1]);
+
+    carUpdName.value = selectedCar.name;
+    carUpdColor.value = selectedCar.color;
+    carUpdName.disabled = false;
+    carUpdColor.disabled = false;
+    updateBtn.disabled = false;
   }
 });
