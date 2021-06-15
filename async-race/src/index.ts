@@ -1,7 +1,9 @@
 import refs from './shared/refs';
 import store from './api/store';
 import {
+  getCars,
   getCarById,
+  getDeleteCarById,
   getStartEngine,
   getStopEngine,
   getDriveStatus,
@@ -148,6 +150,12 @@ render();
 
 // DRIVING
 
+const updateGarage = async () => {
+  const { items, count } = await getCars(store.page);
+  store.cars = items;
+  store.carsCount = count;
+};
+
 const startDriving = async (id: number) => {
   const startBtn = refs.getStartBtn(id);
   startBtn.disabled = true;
@@ -230,5 +238,13 @@ refs.root.addEventListener('click', async event => {
     carUpdName.disabled = false;
     carUpdColor.disabled = false;
     updateBtn.disabled = false;
+  }
+
+  if (target.classList.contains('remove-btn')) {
+    const id = Number(target.id.split('remove-car-')[1]);
+    await getDeleteCarById(id);
+    await updateGarage();
+    const garage = document.getElementById('garage') as HTMLDivElement;
+    garage.innerHTML = renderGarage();
   }
 });
