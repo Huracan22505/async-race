@@ -109,23 +109,23 @@ const renderWinners = () => `
       <th>Car</th>
       <th>Model</th>
       <th class="table-button table-wins ${
-  store.sortBy === 'wins' ? store.sortOrder : ''
-}	id="sort-by-wins">Wins</th>
+        store.sortBy === 'wins' ? store.sortOrder : ''
+      }	id="sort-by-wins">Wins</th>
       <th class="table-button table-time ${
-  store.sortBy === 'time' ? store.sortOrder : ''
-}	id="sort-by-time">Best time (seconds)</th>
+        store.sortBy === 'time' ? store.sortOrder : ''
+      }	id="sort-by-time">Best time (seconds)</th>
     </thead>
     <tbody>
       ${store.winners
-    .map(
-      (
-        winner: {
-          car: { name: string; color: string };
-          wins: number;
-          time: number;
-        },
-        index,
-      ) => `
+        .map(
+          (
+            winner: {
+              car: { name: string; color: string };
+              wins: number;
+              time: number;
+            },
+            index,
+          ) => `
         <tr>
           <td>${index + 1}</td>
           <td>${renderCarImg(winner.car.color)}</td>
@@ -134,8 +134,8 @@ const renderWinners = () => `
           <td>${winner.time}</td>
         </tr>
       `,
-    )
-    .join('')}
+        )
+        .join('')}
     </tbody>
   </table>
 `;
@@ -253,6 +253,15 @@ const updateStateWinners = async () => {
   }
 };
 
+const setSortOrder = async (sortBy: string) => {
+  store.sortOrder = store.sortOrder === 'asc' ? 'desc' : 'asc';
+  store.sortBy = sortBy;
+
+  await updateStateWinners();
+  const winnersPage = document.getElementById('winners-page') as HTMLDivElement;
+  winnersPage.innerHTML = renderWinners();
+};
+
 const startDriving = async (id: number) => {
   const startBtn = refs.getStartBtn(id);
   startBtn.disabled = true;
@@ -365,7 +374,6 @@ refs.root.addEventListener('click', async event => {
     const winner = await race(startDriving);
     await saveWinner(winner);
 
-
     const winMessage = document.getElementById('win-message') as HTMLElement;
     winMessage.innerHTML = `${winner.name} win for ${winner.time} secs!`;
     winMessage.classList.remove('hidden');
@@ -453,5 +461,12 @@ refs.root.addEventListener('click', async event => {
       }
       default:
     }
+  }
+
+  if (target.classList.contains('table-wins')) {
+    setSortOrder('wins');
+  }
+  if (target.classList.contains('table-time')) {
+    setSortOrder('time');
   }
 });

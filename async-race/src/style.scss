@@ -50,6 +50,10 @@ li {
   padding-top: 16px;
 
   margin-bottom: 30px;
+
+  .title {
+    margin-bottom: 20px;
+  }
 }
 
 .btn {
@@ -236,4 +240,11 @@ li {
 .table-button {
   cursor: pointer;
   user-select: none;
+}
+
+.table-button.asc::after {
+  content: '↑';
+}
+.table-button.desc::after {
+  content: '↓';
 }

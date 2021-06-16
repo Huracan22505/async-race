@@ -14,6 +14,6 @@ export default {
   winnersCount,
   animation,
   view: 'garage',
-  sortBy: null,
-  sortOrder: null,
+  sortBy: '',
+  sortOrder: '',
 };
