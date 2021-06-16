@@ -2,6 +2,7 @@ import refs from './shared/refs';
 import store from './api/store';
 import {
   getCars,
+  getWinners,
   getCarById,
   getDeleteCarById,
   getCreateCar,
@@ -92,16 +93,49 @@ const renderCar = ({
 
 const renderGarage = () => `
     <h2>Garage (${store.carsCount} cars)</h2>
-    <p>Page #${store.page}</p>
+    <p>Page #${store.carsPage}</p>
     <ul class="cars">
       ${store.cars.map(car => `<li>${renderCar(car)}</li>`).join('')}
     </ul>
 `;
 
+const renderWinners = () => `
+  <h2>Winners (${store.winnersCount})</h2>
+  <p>Page #${store.winnersPage}</p>
+  <table class="table" cellspacing="0" border="0" cellpadding="0">
+    <thead>
+      <th>Number</th>
+      <th>Car</th>
+      <th>Model</th>
+      <th class="table-button table-wins ${
+        store.sortBy === 'wins' ? store.sortOrder : ''
+      }	id="sort-by-wins">Wins</th>
+      <th class="table-button table-time ${
+        store.sortBy === 'time' ? store.sortOrder : ''
+      }	id="sort-by-time">Best time (seconds)</th>
+    </thead>
+    <tbody>
+      ${store.winners
+        .map(
+          (winner, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${renderCarImg(winner.car.color)}</td>
+          <td>${winner.car.name}</td>
+          <td>${winner.wins}</td>
+          <td>${winner.time}</td>
+        </tr>
+      `,
+        )
+        .join('')}
+    </tbody>
+  </table>
+`;
+
 const render = () => {
   const markup = `
     <header class="header">
-       <h1 class="hidden" >Async Race</h1>
+      <h1 class="hidden">Async Race</h1>
       <button type="button" class="btn header-garage-btn">garage</button>
       <button type="button" class="btn header-winners-btn">winners</button>
     </header>
@@ -134,9 +168,7 @@ const render = () => {
             value="#ffffff"
             disabled
           />
-          <button class="btn" id="update-btn" type="submit">
-            Update
-          </button>
+          <button class="btn" id="update-btn" type="submit">Update</button>
         </form>
       </div>
       <div class="controls">
@@ -149,7 +181,7 @@ const render = () => {
         <p class="win-message hidden" id="win-message"></p>
       </div>
     </div>
-`;
+    <div id="winners-page" style="display: none">${renderWinners()}</div>`;
   const app = document.createElement('div');
   app.innerHTML = markup;
   document.body.appendChild(app);
@@ -160,9 +192,19 @@ render();
 // DRIVING
 
 const updateGarage = async () => {
-  const { items, count } = await getCars(store.page);
+  const { items, count } = await getCars(store.carsPage);
   store.cars = items;
   store.carsCount = count;
+};
+
+export const updateStateWinners = async () => {
+  const { items, count } = await getWinners({
+    page: store.winnersPage,
+    sort: store.sortBy,
+    order: store.sortOrder,
+  });
+  store.winners = items;
+  store.winnersCount = count;
 };
 
 const startDriving = async (id: number) => {
@@ -288,10 +330,32 @@ refs.root.addEventListener('click', async event => {
     const resetBtn = <HTMLButtonElement>event.target;
 
     resetBtn.disabled = true;
+
     store.cars.map(({ id }) => stopDriving(id));
     const winMessage = document.getElementById('win-message') as HTMLElement;
     winMessage.classList.add('hidden');
     const raceBtn = document.getElementById('race') as HTMLButtonElement;
     raceBtn.disabled = false;
+  }
+
+  if (target.classList.contains('header-garage-btn')) {
+    const garagePage = document.getElementById('garage-page') as HTMLDivElement;
+    const winnersPage = document.getElementById(
+      'winners-page',
+    ) as HTMLDivElement;
+
+    garagePage.style.display = 'block';
+    winnersPage.style.display = 'none';
+  }
+  if (target.classList.contains('header-winners-btn')) {
+    const garagePage = document.getElementById('garage-page') as HTMLDivElement;
+    const winnersPage = document.getElementById(
+      'winners-page',
+    ) as HTMLDivElement;
+
+    winnersPage.style.display = 'block';
+    garagePage.style.display = 'none';
+    await updateStateWinners();
+    winnersPage.innerHTML = renderWinners();
   }
 });
