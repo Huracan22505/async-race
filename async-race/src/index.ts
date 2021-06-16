@@ -312,6 +312,8 @@ const stopDriving = async (id: number) => {
   if (store.animation[id]) window.cancelAnimationFrame(store.animation[id].id);
 };
 
+// MAIN LISTENER
+
 refs.root.addEventListener('click', async event => {
   const target = <HTMLElement>event.target;
 
@@ -471,4 +473,27 @@ refs.root.addEventListener('click', async event => {
   if (target.classList.contains('table-time')) {
     setSortOrder('time');
   }
+});
+
+// LISTENERS CREATE / UPDATE
+
+const createForm = document.getElementById('create-form') as HTMLFormElement;
+
+createForm.addEventListener('submit', async event => {
+  event.preventDefault();
+
+  const garage = document.getElementById('garage') as HTMLDivElement;
+  const nameInput = document.getElementById('create-name') as HTMLInputElement;
+  const colorInput = document.getElementById(
+    'create-color',
+  ) as HTMLInputElement;
+
+  const car = { name: nameInput.value, color: colorInput.value };
+
+  await getCreateCar(car);
+  await updateGarage();
+
+  garage.innerHTML = renderGarage();
+  nameInput.value = '';
+  colorInput.value = '';
 });
