@@ -219,3 +219,21 @@ li {
 
   border-radius: 8px;
 }
+
+// WINNERS PAGE
+
+.table {
+  margin-bottom: 50px;
+}
+.table td,
+.table th {
+  font-size: 18px;
+  padding: 12px;
+}
+.table th {
+  background: rgb(81, 96, 112);
+}
+.table-button {
+  cursor: pointer;
+  user-select: none;
+}
