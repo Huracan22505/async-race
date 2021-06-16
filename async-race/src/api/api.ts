@@ -25,7 +25,7 @@ export const getCarById = async (
   id: number;
 }> => (await fetch(`${BASE_URL}/garage/${id}`)).json();
 
-const getSortOrder = (sort: string, order: string) => {
+const getSortOrder = (sort?: string | null, order?: string | null) => {
   if (sort && order) return `&_sort=${sort}&_order=${order}`;
   return '';
 };
@@ -35,7 +35,20 @@ export const getWinners = async ({
   limit = 10,
   sort,
   order,
-}): Promise<unknown> => {
+}: {
+  page: number;
+  limit?: number;
+  sort?: string | null;
+  order?: string | null;
+}): Promise<{
+  items: Array<{
+    car: { name: string; color: string; id: number };
+    id: number;
+    time: number;
+    wins: number;
+  }>;
+  count: string | null;
+}> => {
   const response = await fetch(
     `${BASE_URL}/winners?_page=${page}&_limit=${limit}${getSortOrder(
       sort,
@@ -47,7 +60,7 @@ export const getWinners = async ({
 
   return {
     items: await Promise.all(
-      items.map(async winner => ({
+      items.map(async (winner: { id: string }) => ({
         ...winner,
         car: await getCarById(winner.id),
       })),

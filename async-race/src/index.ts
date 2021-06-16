@@ -104,20 +104,27 @@ const renderWinners = () => `
   <p>Page #${store.winnersPage}</p>
   <table class="table" cellspacing="0" border="0" cellpadding="0">
     <thead>
-      <th>Number</th>
+      <th>№</th>
       <th>Car</th>
       <th>Model</th>
       <th class="table-button table-wins ${
-        store.sortBy === 'wins' ? store.sortOrder : ''
-      }	id="sort-by-wins">Wins</th>
+  store.sortBy === 'wins' ? store.sortOrder : ''
+}	id="sort-by-wins">Wins</th>
       <th class="table-button table-time ${
-        store.sortBy === 'time' ? store.sortOrder : ''
-      }	id="sort-by-time">Best time (seconds)</th>
+  store.sortBy === 'time' ? store.sortOrder : ''
+}	id="sort-by-time">Best time (seconds)</th>
     </thead>
     <tbody>
       ${store.winners
-        .map(
-          (winner, index) => `
+    .map(
+      (
+        winner: {
+          car: { name: string; color: string };
+          wins: number;
+          time: number;
+        },
+        index,
+      ) => `
         <tr>
           <td>${index + 1}</td>
           <td>${renderCarImg(winner.car.color)}</td>
@@ -126,8 +133,8 @@ const renderWinners = () => `
           <td>${winner.time}</td>
         </tr>
       `,
-        )
-        .join('')}
+    )
+    .join('')}
     </tbody>
   </table>
 `;
@@ -135,7 +142,7 @@ const renderWinners = () => `
 const render = () => {
   const markup = `
     <header class="header">
-      <h1 class="hidden">Async Race</h1>
+      <h1 class="title" >Async Race Game</h1>
       <button type="button" class="btn header-garage-btn">garage</button>
       <button type="button" class="btn header-winners-btn">winners</button>
     </header>
@@ -197,12 +204,15 @@ const updateGarage = async () => {
   store.carsCount = count;
 };
 
-export const updateStateWinners = async () => {
+await updateGarage();
+
+const updateStateWinners = async () => {
   const { items, count } = await getWinners({
     page: store.winnersPage,
     sort: store.sortBy,
     order: store.sortOrder,
   });
+
   store.winners = items;
   store.winnersCount = count;
 };

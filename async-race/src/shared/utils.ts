@@ -106,11 +106,11 @@ export const generateRandomCars = (
 
 export const raceAll = async (
   promises: Array<
-    Promise<{
-      animationTime: number;
-      id: number;
-      success: boolean;
-    }>
+  Promise<{
+    animationTime: number;
+    id: number;
+    success: boolean;
+  }>
   >,
   ids: number[],
 ): Promise<{
