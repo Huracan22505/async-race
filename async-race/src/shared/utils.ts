@@ -1,3 +1,5 @@
+import store from '../api/store';
+
 // ANIMAION
 
 const getElemPosition = (elem: HTMLElement) => {
@@ -99,3 +101,74 @@ export const generateRandomCars = (
   new Array(carCount)
     .fill(1)
     .map(() => ({ name: getRandomCarName(), color: getRandomCarColor() }));
+
+// RACE
+
+export const raceAll = async (
+  promises: Array<
+    Promise<{
+      animationTime: number;
+      id: number;
+      success: boolean;
+    }>
+  >,
+  ids: number[],
+): Promise<{
+  name: string;
+  color: string;
+  id: number;
+  animationTime: number;
+}> => {
+  const { success, id, animationTime } = await Promise.race(promises);
+
+  if (!success) {
+    const failedIndex = ids.findIndex(i => i === id);
+    const restPromises = [
+      ...promises.slice(0, failedIndex),
+      ...promises.slice(failedIndex + 1, promises.length),
+    ];
+    const restIds = [
+      ...ids.slice(0, failedIndex),
+      ...ids.slice(failedIndex + 1, ids.length),
+    ];
+    return raceAll(restPromises, restIds);
+  }
+
+  const winner: {
+    name: string;
+    color: string;
+    id: number;
+  } = store.cars.filter(
+    (car: { name: string; color: string; id: number }): boolean =>
+      car.id === id,
+  )[0];
+
+  return {
+    ...winner,
+    animationTime: Number((animationTime / 1000).toFixed(2)),
+  };
+};
+
+export const race = async (action: {
+  (id: number): Promise<{
+    success: boolean;
+    id: number;
+    animationTime: number;
+  }>;
+}): Promise<{
+  name: string;
+  color: string;
+  id: number;
+  animationTime: number;
+}> => {
+  const promises = store.cars.map(({ id }) => action(id));
+
+  const winner = await raceAll(
+    promises,
+    store.cars.map(
+      (car: { name: string; color: string; id: number }) => car.id,
+    ),
+  );
+
+  return winner;
+};

@@ -13,6 +13,7 @@ import {
   getDistanceBtwElements,
   animation,
   generateRandomCars,
+  race,
 } from './shared/utils';
 import './style.scss';
 
@@ -91,7 +92,7 @@ const renderCar = ({
 
 const renderGarage = () => `
     <h2>Garage (${store.carsCount} cars)</h2>
-    <h3>Page #${store.page}</h3>
+    <p>Page #${store.page}</p>
     <ul class="cars">
       ${store.cars.map(car => `<li>${renderCar(car)}</li>`).join('')}
     </ul>
@@ -144,6 +145,9 @@ const render = () => {
         <button class="btn generate-btn" id="generate">Generate</button>
       </div>
       <div id="garage">${renderGarage()}</div>
+      <div>
+        <p class="win-message" id="win-message"></p>
+      </div>
     </div>
 `;
   const app = document.createElement('div');
@@ -264,5 +268,19 @@ refs.root.addEventListener('click', async event => {
     const garage = document.getElementById('garage') as HTMLDivElement;
     garage.innerHTML = renderGarage();
     generateBtn.disabled = false;
+  }
+
+  if (target.classList.contains('race-btn')) {
+    const raceBtn = <HTMLButtonElement>event.target;
+    raceBtn.disabled = true;
+
+    const winner = await race(startDriving);
+    // await saveWinner(winner);
+    const winMessage = document.getElementById('win-message') as HTMLElement;
+    winMessage.innerHTML = `${winner.name} win for ${winner.animationTime} secs!`;
+    winMessage.classList.toggle('visible', true);
+
+    const resetBtn = <HTMLButtonElement>event.target;
+    resetBtn.disabled = false;
   }
 });

@@ -81,6 +81,11 @@ li {
     color: white;
     transform: translateY(-7px);
   }
+
+  &:disabled {
+    background-color: gray;
+    cursor: text;
+  }
 }
 
 // FORMS
@@ -196,4 +201,22 @@ li {
 
     font-size: 60px;
   }
+}
+
+// WIN MESSAGE
+
+.win-message {
+  top: 50%;
+  left: calc(50% - 250px);
+  text-align: center;
+  display: none;
+  position: fixed;
+  font-size: 50px;
+  color: white;
+  width: 500px;
+  text-shadow: #1ad46e;
+}
+
+.win-message.visible {
+  display: block;
 }
