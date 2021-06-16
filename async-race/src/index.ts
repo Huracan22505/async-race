@@ -141,12 +141,12 @@ const render = () => {
       </div>
       <div class="controls">
         <button class="btn race-btn" id="race">Race</button>
-        <button class="btn reset-btn" id="reset">Reset</button>
+        <button class="btn reset-btn" id="reset" disabled>Reset</button>
         <button class="btn generate-btn" id="generate">Generate</button>
       </div>
       <div id="garage">${renderGarage()}</div>
       <div>
-        <p class="win-message" id="win-message"></p>
+        <p class="win-message hidden" id="win-message"></p>
       </div>
     </div>
 `;
@@ -278,9 +278,20 @@ refs.root.addEventListener('click', async event => {
     // await saveWinner(winner);
     const winMessage = document.getElementById('win-message') as HTMLElement;
     winMessage.innerHTML = `${winner.name} win for ${winner.animationTime} secs!`;
-    winMessage.classList.toggle('visible', true);
+    winMessage.classList.remove('hidden');
 
-    const resetBtn = <HTMLButtonElement>event.target;
+    const resetBtn = document.getElementById('reset') as HTMLButtonElement;
     resetBtn.disabled = false;
+  }
+
+  if (target.classList.contains('reset-btn')) {
+    const resetBtn = <HTMLButtonElement>event.target;
+
+    resetBtn.disabled = true;
+    store.cars.map(({ id }) => stopDriving(id));
+    const winMessage = document.getElementById('win-message') as HTMLElement;
+    winMessage.classList.add('hidden');
+    const raceBtn = document.getElementById('race') as HTMLButtonElement;
+    raceBtn.disabled = false;
   }
 });

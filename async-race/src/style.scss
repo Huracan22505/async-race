@@ -84,7 +84,7 @@ li {
 
   &:disabled {
     background-color: gray;
-    cursor: text;
+    cursor: auto;
   }
 }
 
@@ -206,17 +206,16 @@ li {
 // WIN MESSAGE
 
 .win-message {
+  position: fixed;
   top: 50%;
   left: calc(50% - 250px);
-  text-align: center;
-  display: none;
-  position: fixed;
-  font-size: 50px;
-  color: white;
-  width: 500px;
-  text-shadow: #1ad46e;
-}
 
-.win-message.visible {
-  display: block;
+  width: 500px;
+
+  font-size: 50px;
+  color: rgb(8, 8, 8);
+  text-align: center;
+  background-color: chartreuse;
+
+  border-radius: 8px;
 }
