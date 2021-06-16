@@ -10,6 +10,7 @@ import {
   getStopEngine,
   getDriveStatus,
   saveWinner,
+  deleteWinner,
 } from './api/api';
 import {
   getDistanceBtwElements,
@@ -349,6 +350,7 @@ refs.root.addEventListener('click', async event => {
   if (target.classList.contains('remove-btn')) {
     const id = Number(target.id.split('remove-car-')[1]);
     await getDeleteCarById(id);
+    await deleteWinner(id);
     await updateGarage();
     const garage = document.getElementById('garage') as HTMLDivElement;
     garage.innerHTML = renderGarage();

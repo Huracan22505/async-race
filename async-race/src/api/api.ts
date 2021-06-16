@@ -136,6 +136,9 @@ export const createWinner = async (body: {
     })
   ).json();
 
+export const deleteWinner = async (id: number): Promise<void> =>
+  (await fetch(`${BASE_URL}/winners/${id}`, { method: 'DELETE' })).json();
+
 export const updateWinner = async (
   id: number,
   body: { id: number; wins: number; time: number },
