@@ -1,11 +1,19 @@
-import { getCars } from './api';
+import { getCars, getWinners } from './api';
 
 const { items: cars, count: carsCount } = await getCars(1);
+const { items: winners, count: winnersCount } = await getWinners({ page: 1 });
+
 const animation: { [key: number]: { id: number } } = {};
 
 export default {
-  page: 1,
+  carsPage: 1,
+  winnersPage: 1,
   cars,
   carsCount,
+  winners,
+  winnersCount,
   animation,
+  view: 'garage',
+  sortBy: null,
+  sortOrder: null,
 };
