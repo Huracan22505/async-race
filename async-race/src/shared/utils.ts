@@ -107,7 +107,7 @@ export const generateRandomCars = (
 export const raceAll = async (
   promises: Array<
   Promise<{
-    animationTime: number;
+    time: number;
     id: number;
     success: boolean;
   }>
@@ -117,9 +117,9 @@ export const raceAll = async (
   name: string;
   color: string;
   id: number;
-  animationTime: number;
+  time: number;
 }> => {
-  const { success, id, animationTime } = await Promise.race(promises);
+  const { success, id, time } = await Promise.race(promises);
 
   if (!success) {
     const failedIndex = ids.findIndex(i => i === id);
@@ -145,7 +145,7 @@ export const raceAll = async (
 
   return {
     ...winner,
-    animationTime: Number((animationTime / 1000).toFixed(2)),
+    time: Number((time / 1000).toFixed(2)),
   };
 };
 
@@ -153,13 +153,13 @@ export const race = async (action: {
   (id: number): Promise<{
     success: boolean;
     id: number;
-    animationTime: number;
+    time: number;
   }>;
 }): Promise<{
   name: string;
   color: string;
   id: number;
-  animationTime: number;
+  time: number;
 }> => {
   const promises = store.cars.map(({ id }) => action(id));
 

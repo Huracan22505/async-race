@@ -9,6 +9,7 @@ import {
   getStartEngine,
   getStopEngine,
   getDriveStatus,
+  saveWinner,
 } from './api/api';
 import {
   getDistanceBtwElements,
@@ -108,23 +109,23 @@ const renderWinners = () => `
       <th>Car</th>
       <th>Model</th>
       <th class="table-button table-wins ${
-        store.sortBy === 'wins' ? store.sortOrder : ''
-      }	id="sort-by-wins">Wins</th>
+  store.sortBy === 'wins' ? store.sortOrder : ''
+}	id="sort-by-wins">Wins</th>
       <th class="table-button table-time ${
-        store.sortBy === 'time' ? store.sortOrder : ''
-      }	id="sort-by-time">Best time (seconds)</th>
+  store.sortBy === 'time' ? store.sortOrder : ''
+}	id="sort-by-time">Best time (seconds)</th>
     </thead>
     <tbody>
       ${store.winners
-        .map(
-          (
-            winner: {
-              car: { name: string; color: string };
-              wins: number;
-              time: number;
-            },
-            index,
-          ) => `
+    .map(
+      (
+        winner: {
+          car: { name: string; color: string };
+          wins: number;
+          time: number;
+        },
+        index,
+      ) => `
         <tr>
           <td>${index + 1}</td>
           <td>${renderCarImg(winner.car.color)}</td>
@@ -133,8 +134,8 @@ const renderWinners = () => `
           <td>${winner.time}</td>
         </tr>
       `,
-        )
-        .join('')}
+    )
+    .join('')}
     </tbody>
   </table>
 `;
@@ -265,7 +266,7 @@ const startDriving = async (id: number) => {
     distance: number;
   } = await getStartEngine(id);
 
-  const animationTime = Math.round(distance / velocity);
+  const time = Math.round(distance / velocity);
 
   startBtn.classList.toggle('enabling', false);
 
@@ -276,12 +277,12 @@ const startDriving = async (id: number) => {
   const finish = refs.getFinishElem(id);
   const distanceBtwElem = Math.floor(getDistanceBtwElements(car, finish)) + 100;
 
-  store.animation[id] = animation(car, distanceBtwElem, animationTime);
+  store.animation[id] = animation(car, distanceBtwElem, time);
 
   const { success } = await getDriveStatus(id);
   if (!success) window.cancelAnimationFrame(store.animation[id].id);
 
-  return { success, id, animationTime };
+  return { success, id, time };
 };
 
 const stopDriving = async (id: number) => {
@@ -362,9 +363,11 @@ refs.root.addEventListener('click', async event => {
     raceBtn.disabled = true;
 
     const winner = await race(startDriving);
-    // await saveWinner(winner);
+    await saveWinner(winner);
+
+
     const winMessage = document.getElementById('win-message') as HTMLElement;
-    winMessage.innerHTML = `${winner.name} win for ${winner.animationTime} secs!`;
+    winMessage.innerHTML = `${winner.name} win for ${winner.time} secs!`;
     winMessage.classList.remove('hidden');
 
     const resetBtn = document.getElementById('reset') as HTMLButtonElement;
