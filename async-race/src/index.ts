@@ -108,23 +108,23 @@ const renderWinners = () => `
       <th>Car</th>
       <th>Model</th>
       <th class="table-button table-wins ${
-  store.sortBy === 'wins' ? store.sortOrder : ''
-}	id="sort-by-wins">Wins</th>
+        store.sortBy === 'wins' ? store.sortOrder : ''
+      }	id="sort-by-wins">Wins</th>
       <th class="table-button table-time ${
-  store.sortBy === 'time' ? store.sortOrder : ''
-}	id="sort-by-time">Best time (seconds)</th>
+        store.sortBy === 'time' ? store.sortOrder : ''
+      }	id="sort-by-time">Best time (seconds)</th>
     </thead>
     <tbody>
       ${store.winners
-    .map(
-      (
-        winner: {
-          car: { name: string; color: string };
-          wins: number;
-          time: number;
-        },
-        index,
-      ) => `
+        .map(
+          (
+            winner: {
+              car: { name: string; color: string };
+              wins: number;
+              time: number;
+            },
+            index,
+          ) => `
         <tr>
           <td>${index + 1}</td>
           <td>${renderCarImg(winner.car.color)}</td>
@@ -133,8 +133,8 @@ const renderWinners = () => `
           <td>${winner.time}</td>
         </tr>
       `,
-    )
-    .join('')}
+        )
+        .join('')}
     </tbody>
   </table>
 `;
@@ -188,7 +188,12 @@ const render = () => {
         <p class="win-message hidden" id="win-message"></p>
       </div>
     </div>
-    <div id="winners-page" style="display: none">${renderWinners()}</div>`;
+    <div id="winners-page" style="display: none">${renderWinners()}</div>
+    <div class="pagination">
+      <button class="btn prev-button" disabled id="prev">←</button>
+      <button class="btn next-button" disabled id="next">→</button>
+    </div>
+`;
   const app = document.createElement('div');
   app.innerHTML = markup;
   document.body.appendChild(app);
@@ -202,6 +207,21 @@ const updateGarage = async () => {
   const { items, count } = await getCars(store.carsPage);
   store.cars = items;
   store.carsCount = count;
+
+  if (store.carsPage * 7 < Number(store.carsCount)) {
+    const nextBtn = document.getElementById('next') as HTMLButtonElement;
+    nextBtn.disabled = false;
+  } else {
+    const nextBtn = document.getElementById('next') as HTMLButtonElement;
+    nextBtn.disabled = true;
+  }
+  if (store.carsPage > 1) {
+    const prevBtn = document.getElementById('prev') as HTMLButtonElement;
+    prevBtn.disabled = false;
+  } else {
+    const prevBtn = document.getElementById('prev') as HTMLButtonElement;
+    prevBtn.disabled = true;
+  }
 };
 
 await updateGarage();
@@ -215,6 +235,21 @@ const updateStateWinners = async () => {
 
   store.winners = items;
   store.winnersCount = count;
+
+  if (store.winnersPage * 10 < Number(store.winnersCount)) {
+    const nextBtn = document.getElementById('next') as HTMLButtonElement;
+    nextBtn.disabled = false;
+  } else {
+    const nextBtn = document.getElementById('next') as HTMLButtonElement;
+    nextBtn.disabled = true;
+  }
+  if (store.winnersPage > 1) {
+    const prevBtn = document.getElementById('prev') as HTMLButtonElement;
+    prevBtn.disabled = false;
+  } else {
+    const prevBtn = document.getElementById('prev') as HTMLButtonElement;
+    prevBtn.disabled = true;
+  }
 };
 
 const startDriving = async (id: number) => {
@@ -367,5 +402,53 @@ refs.root.addEventListener('click', async event => {
     garagePage.style.display = 'none';
     await updateStateWinners();
     winnersPage.innerHTML = renderWinners();
+  }
+
+  if (target.classList.contains('prev-button')) {
+    switch (store.view) {
+      case 'garage': {
+        store.carsPage -= 1;
+        await updateGarage();
+
+        const garage = document.getElementById('garage') as HTMLDivElement;
+        garage.innerHTML = renderGarage();
+        break;
+      }
+      case 'winners': {
+        store.winnersPage -= 1;
+        await updateStateWinners();
+        const winners = document.getElementById(
+          'winners-page',
+        ) as HTMLDivElement;
+        winners.innerHTML = renderWinners();
+        break;
+      }
+      default:
+        return;
+    }
+  }
+
+  if (target.classList.contains('next-button')) {
+    switch (store.view) {
+      case 'garage': {
+        store.carsPage += 1;
+        await updateGarage();
+        const garage = document.getElementById('garage') as HTMLDivElement;
+
+        garage.innerHTML = renderGarage();
+        break;
+      }
+      case 'winners': {
+        store.winnersPage += 1;
+        await updateStateWinners();
+        const winners = document.getElementById(
+          'winners-page',
+        ) as HTMLDivElement;
+
+        winners.innerHTML = renderWinners();
+        break;
+      }
+      default:
+    }
   }
 });
