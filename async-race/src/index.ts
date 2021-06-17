@@ -61,6 +61,10 @@ refs.root.addEventListener('click', async event => {
     winMessage.innerHTML = `${winner.name} win for ${winner.time} secs!`;
     winMessage.classList.remove('hidden');
     await saveWinner(winner);
+
+    setTimeout(() => {
+      winMessage.classList.add('hidden');
+    }, 3000);
   }
 
   if (target.classList.contains('reset-btn')) {
