@@ -27,7 +27,7 @@ let selectedCar: { name: string; color: string; id: number };
 
 const renderCarImg = (color: string) => `
  <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-   width="100" height="100" viewBox="0 0 1280.000000 640.000000"
+   width="100" height="50" viewBox="0 0 1280.000000 640.000000"
    preserveAspectRatio="xMidYMid meet">
     <g transform="translate(0.000000,640.000000) scale(0.100000,-0.100000)"
       fill="${color}" stroke="none">
@@ -108,8 +108,8 @@ const renderCar = ({
 `;
 
 const renderGarage = () => `
-    <h2>Garage (${store.carsCount} cars)</h2>
-    <p>Page #${store.carsPage}</p>
+    <h2 class="title">Garage (${store.carsCount} cars)</h2>
+    <p class="text">Page #${store.carsPage}</p>
     <ul class="cars">
       ${store.cars.map(car => `<li>${renderCar(car)}</li>`).join('')}
     </ul>
@@ -118,29 +118,28 @@ const renderGarage = () => `
 const renderWinners = () => `
   <h2>Winners (${store.winnersCount})</h2>
   <p>Page #${store.winnersPage}</p>
-  <table class="table" cellspacing="0" border="0" cellpadding="0">
-    <thead>
-      <th>№</th>
-      <th>Car</th>
-      <th>Model</th>
+<table>
+<tr>
+  <th>№</th>
+  <th>Car</th>
+  <th>Model</th>
       <th class="table-button table-wins ${
-  store.sortBy === 'wins' ? store.sortOrder : ''
-}	id="sort-by-wins">Wins</th>
+        store.sortBy === 'wins' ? store.sortOrder : ''
+      }	id="sort-by-wins">Wins</th>
       <th class="table-button table-time ${
-  store.sortBy === 'time' ? store.sortOrder : ''
-}	id="sort-by-time">Best time (seconds)</th>
-    </thead>
-    <tbody>
-      ${store.winners
-    .map(
-      (
-        winner: {
-          car: { name: string; color: string };
-          wins: number;
-          time: number;
-        },
-        index,
-      ) => `
+        store.sortBy === 'time' ? store.sortOrder : ''
+      }	id="sort-by-time">Best time (sec)</th>
+  </tr>
+        ${store.winners
+          .map(
+            (
+              winner: {
+                car: { name: string; color: string };
+                wins: number;
+                time: number;
+              },
+              index,
+            ) => `
         <tr>
           <td>${index + 1}</td>
           <td>${renderCarImg(winner.car.color)}</td>
@@ -149,11 +148,10 @@ const renderWinners = () => `
           <td>${winner.time}</td>
         </tr>
       `,
-    )
-    .join('')}
-    </tbody>
-  </table>
-`;
+          )
+          .join('')}
+
+</table>`;
 
 const render = () => {
   const markup = `
@@ -163,7 +161,7 @@ const render = () => {
       <button type="button" class="btn header-winners-btn">winners</button>
     </header>
     <main id="garage-page">
-      <div>
+      <div class="forms-container">
         <form class="form" id="create-form">
           <input class="input" id="create-name" name="name" type="text" />
           <input
@@ -199,12 +197,12 @@ const render = () => {
         <li class="item" ><button class="btn reset-btn" id="reset" disabled>Reset</button></li>
         <li class="item" ><button class="btn generate-btn" id="generate">Generate</button></li>
       </ul>
-      <div id="garage">${renderGarage()}</div>
+      <div id="garage" class="garage">${renderGarage()}</div>
       <div>
         <p class="win-message hidden" id="win-message"></p>
       </div>
     </main>
-    <div id="winners-page" style="display: none">${renderWinners()}</div>
+    <div id="winners-page" class="winners-page" style="display: none">${renderWinners()}</div>
     <div class="pagination">
       <button class="btn prev-button" disabled id="prev">←</button>
       <button class="btn next-button" disabled id="next">→</button>
@@ -415,6 +413,8 @@ refs.root.addEventListener('click', async event => {
     const winnersPage = document.getElementById(
       'winners-page',
     ) as HTMLDivElement;
+
+    await updateGarage();
 
     garagePage.style.display = 'block';
     winnersPage.style.display = 'none';
