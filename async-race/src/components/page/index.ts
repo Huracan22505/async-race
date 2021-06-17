@@ -12,7 +12,7 @@ export const renderPage = (): void => {
     <main id="garage-page">
       <div class="forms-container">
         <form class="form create-form" id="create-form">
-          <input class="input" id="create-name" name="name" type="text" />
+          <input class="input" id="create-name" name="name" type="text" required />
           <input
             class="color"
             id="create-color"
@@ -29,6 +29,7 @@ export const renderPage = (): void => {
             name="name"
             type="text"
             disabled
+            required
           />
           <input
             class="color"
