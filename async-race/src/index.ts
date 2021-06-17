@@ -103,7 +103,9 @@ const renderCar = ({
         ${renderCarImg(color)}
       </div>
     </div>
-    <div class="finish" id="finish-${id}">🚩</div>
+    <div class="finish" id="finish-${id}">
+      <img src="https://acegif.com/wp-content/gifs/race-flag-4.gif" alt="">
+    </div>
   </div>
 `;
 
@@ -124,22 +126,22 @@ const renderWinners = () => `
   <th>Car</th>
   <th>Model</th>
       <th class="table-button table-wins ${
-        store.sortBy === 'wins' ? store.sortOrder : ''
-      }	id="sort-by-wins">Wins</th>
+  store.sortBy === 'wins' ? store.sortOrder : ''
+}	id="sort-by-wins">Wins</th>
       <th class="table-button table-time ${
-        store.sortBy === 'time' ? store.sortOrder : ''
-      }	id="sort-by-time">Best time (sec)</th>
+  store.sortBy === 'time' ? store.sortOrder : ''
+}	id="sort-by-time">Best time (sec)</th>
   </tr>
         ${store.winners
-          .map(
-            (
-              winner: {
-                car: { name: string; color: string };
-                wins: number;
-                time: number;
-              },
-              index,
-            ) => `
+    .map(
+      (
+        winner: {
+          car: { name: string; color: string };
+          wins: number;
+          time: number;
+        },
+        index,
+      ) => `
         <tr>
           <td>${index + 1}</td>
           <td>${renderCarImg(winner.car.color)}</td>
@@ -148,14 +150,15 @@ const renderWinners = () => `
           <td>${winner.time}</td>
         </tr>
       `,
-          )
-          .join('')}
+    )
+    .join('')}
 
 </table>`;
 
 const render = () => {
   const markup = `
     <header class="header">
+      <img src="https://media1.giphy.com/media/W643jDxPJXWQywrJwH/source.gif" alt="">
       <h1 class="title" >Async Race Game</h1>
       <button type="button" class="btn header-garage-btn">garage</button>
       <button type="button" class="btn header-winners-btn">winners</button>
@@ -320,7 +323,7 @@ const stopDriving = async (id: number) => {
   startBtn.disabled = false;
 
   const car = refs.getCarElem(id);
-  car.style.transform = 'translateX(0) translateY(37px)';
+  car.style.transform = 'translateX(0) translateY(52px)';
   if (store.animation[id]) window.cancelAnimationFrame(store.animation[id].id);
 };
 

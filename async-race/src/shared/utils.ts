@@ -41,7 +41,7 @@ export const animation = (
     car.style.transform = `translateX(${Math.min(
       passed,
       distanceBtwElem,
-    )}px) translateY(37px)`;
+    )}px) translateY(52px)`;
 
     if (passed < distanceBtwElem) {
       state.id = window.requestAnimationFrame(getStep);

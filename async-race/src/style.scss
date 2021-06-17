@@ -53,8 +53,13 @@ li {
   display: flex;
   align-items: center;
 
+  img {
+    width: 124px;
+    height: 70px;
+  }
+
   .title {
-    margin-right: 150px;
+    margin-right: 20px;
   }
 
   .btn {
@@ -145,6 +150,7 @@ li {
 // CONTROLS
 
 .controls-list {
+  margin-top: 10px;
   margin-bottom: 50px;
 
   display: flex;
@@ -163,10 +169,14 @@ li {
 .cars {
   margin-top: 20px;
 
+  .select-btn {
+    margin-right: 6px;
+  }
+
   .car {
     width: 100px;
 
-    transform: translateY(37px);
+    transform: translateY(52px);
   }
 
   .car-model {
@@ -186,6 +196,8 @@ li {
 .garage {
   .title,
   .text {
+    margin-bottom: 5px;
+
     text-align: center;
   }
 }
@@ -199,7 +211,7 @@ li {
   justify-content: space-between;
   align-items: baseline;
 
-  border-bottom: 4px solid rgb(12, 116, 110);
+  border-bottom: 4px solid rgb(167, 182, 164);
 
   .car-control-container {
     display: flex;
@@ -246,9 +258,12 @@ li {
   .finish {
     margin-top: -80px;
 
-    transform: translateY(52px) translateX(-120px);
+    transform: translateY(58px) translateX(-120px);
 
-    font-size: 60px;
+    img {
+      width: 124px;
+      height: 76px;
+    }
   }
 }
 
@@ -273,6 +288,11 @@ li {
 
 .winners-page {
   text-align: center;
+
+  h2,
+  p {
+    margin-bottom: 5px;
+  }
 }
 
 table {
