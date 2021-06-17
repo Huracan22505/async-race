@@ -87,6 +87,8 @@ refs.root.addEventListener('click', async event => {
 
     await updateGarage();
 
+    store.view = 'garage';
+
     garagePage.style.display = 'block';
     winnersPage.style.display = 'none';
   }
@@ -99,6 +101,9 @@ refs.root.addEventListener('click', async event => {
     winnersPage.style.display = 'block';
     garagePage.style.display = 'none';
     await updateWinners();
+
+    store.view = 'winners';
+
     winnersPage.innerHTML = renderWinners();
   }
 
@@ -115,6 +120,7 @@ refs.root.addEventListener('click', async event => {
       case 'winners': {
         store.winnersPage -= 1;
         await updateWinners();
+
         const winners = document.getElementById(
           'winners-page',
         ) as HTMLDivElement;
@@ -147,6 +153,7 @@ refs.root.addEventListener('click', async event => {
         break;
       }
       default:
+        return;
     }
   }
 

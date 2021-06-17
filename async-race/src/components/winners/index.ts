@@ -11,22 +11,22 @@ export const renderWinners = (): string => `
   <th>Car</th>
   <th>Model</th>
       <th class="table-button table-wins ${
-        store.sortBy === 'wins' ? store.sortOrder : ''
-      }	id="sort-by-wins">Wins</th>
+  store.sortBy === 'wins' ? store.sortOrder : ''
+}	id="sort-by-wins">Wins</th>
       <th class="table-button table-time ${
-        store.sortBy === 'time' ? store.sortOrder : ''
-      }	id="sort-by-time">Best time (sec)</th>
+  store.sortBy === 'time' ? store.sortOrder : ''
+}	id="sort-by-time">Best time (sec)</th>
   </tr>
         ${store.winners
-          .map(
-            (
-              winner: {
-                car: { name: string; color: string };
-                wins: number;
-                time: number;
-              },
-              index,
-            ) => `
+    .map(
+      (
+        winner: {
+          car: { name: string; color: string };
+          wins: number;
+          time: number;
+        },
+        index,
+      ) => `
         <tr>
           <td>${index + 1}</td>
           <td>${renderCarImg(winner.car.color)}</td>
@@ -35,8 +35,8 @@ export const renderWinners = (): string => `
           <td>${winner.time}</td>
         </tr>
       `,
-          )
-          .join('')}
+    )
+    .join('')}
 
 </table>`;
 

@@ -1,5 +1,3 @@
-import refs from '../../shared/refs';
-
 export const renderCarImg = (color: string): string => `
  <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
    width="100" height="50" viewBox="0 0 1280.000000 640.000000"
