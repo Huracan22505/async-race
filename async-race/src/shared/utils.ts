@@ -1,4 +1,4 @@
-import store from '../api/store';
+import store from '../servises/store';
 
 // ANIMAION
 
@@ -109,11 +109,11 @@ export const generateRandomCars = (
 
 export const raceAll = async (
   promises: Array<
-  Promise<{
-    time: number;
-    id: number;
-    success: boolean;
-  }>
+    Promise<{
+      time: number;
+      id: number;
+      success: boolean;
+    }>
   >,
   ids: number[],
 ): Promise<{
