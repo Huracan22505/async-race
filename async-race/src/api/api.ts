@@ -47,6 +47,20 @@ export const getDeleteCarById = async (
   id: number;
 }> => (await fetch(`${BASE_URL}/garage/${id}`, { method: 'DELETE' })).json();
 
+export const updateCar = async (
+  id: number,
+  body: { name: string; color: string },
+): Promise<void> =>
+  (
+    await fetch(`${BASE_URL}/garage/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  ).json();
+
 export const getStartEngine = async (
   id: number,
 ): Promise<{ velocity: number; distance: number }> =>

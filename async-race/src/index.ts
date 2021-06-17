@@ -6,6 +6,7 @@ import {
   getCarById,
   getDeleteCarById,
   getCreateCar,
+  updateCar,
   getStartEngine,
   getStopEngine,
   getDriveStatus,
@@ -19,6 +20,8 @@ import {
   race,
 } from './shared/utils';
 import './style.scss';
+
+let selectedCar: { name: string; color: string; id: number };
 
 // RENDER
 
@@ -110,23 +113,23 @@ const renderWinners = () => `
       <th>Car</th>
       <th>Model</th>
       <th class="table-button table-wins ${
-        store.sortBy === 'wins' ? store.sortOrder : ''
-      }	id="sort-by-wins">Wins</th>
+  store.sortBy === 'wins' ? store.sortOrder : ''
+}	id="sort-by-wins">Wins</th>
       <th class="table-button table-time ${
-        store.sortBy === 'time' ? store.sortOrder : ''
-      }	id="sort-by-time">Best time (seconds)</th>
+  store.sortBy === 'time' ? store.sortOrder : ''
+}	id="sort-by-time">Best time (seconds)</th>
     </thead>
     <tbody>
       ${store.winners
-        .map(
-          (
-            winner: {
-              car: { name: string; color: string };
-              wins: number;
-              time: number;
-            },
-            index,
-          ) => `
+    .map(
+      (
+        winner: {
+          car: { name: string; color: string };
+          wins: number;
+          time: number;
+        },
+        index,
+      ) => `
         <tr>
           <td>${index + 1}</td>
           <td>${renderCarImg(winner.car.color)}</td>
@@ -135,8 +138,8 @@ const renderWinners = () => `
           <td>${winner.time}</td>
         </tr>
       `,
-        )
-        .join('')}
+    )
+    .join('')}
     </tbody>
   </table>
 `;
@@ -328,8 +331,6 @@ refs.root.addEventListener('click', async event => {
   }
 
   if (target.classList.contains('select-btn')) {
-    let selectedCar = null;
-
     const carUpdName = document.getElementById(
       'update-name',
     ) as HTMLInputElement;
@@ -495,5 +496,28 @@ createForm.addEventListener('submit', async event => {
 
   garage.innerHTML = renderGarage();
   nameInput.value = '';
+  colorInput.value = '';
+});
+
+const updateForm = document.getElementById('update-form') as HTMLFormElement;
+
+updateForm.addEventListener('submit', async event => {
+  event.preventDefault();
+
+  const garage = document.getElementById('garage') as HTMLDivElement;
+  const nameInput = document.getElementById('update-name') as HTMLInputElement;
+  const colorInput = document.getElementById(
+    'update-color',
+  ) as HTMLInputElement;
+
+  const car = { name: nameInput.value, color: colorInput.value };
+
+  await updateCar(selectedCar.id, car);
+  await updateGarage();
+
+  garage.innerHTML = renderGarage();
+  nameInput.value = '';
+  nameInput.disabled = true;
+  colorInput.disabled = true;
   colorInput.value = '';
 });
