@@ -26,40 +26,51 @@ let selectedCar: { name: string; color: string; id: number };
 // RENDER
 
 const renderCarImg = (color: string) => `
-  <svg
-      version="1.1"
-      id="car"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      x="0px"
-      y="0px"
-      width="79.536px"
-      height="79.536px"
-      viewBox="0 0 79.536 79.536"
-      style="enable-background: new 0 0 79.536 79.536"
-      xml:space="preserve"
-    >
-      <g>
-        <path
-          style="fill:${color};"
-          d="M15.532,56.706c-3.977,0-7.213-3.242-7.213-7.197c0-3.998,3.236-7.224,7.213-7.224
-      c3.987,0,7.226,3.226,7.226,7.224C22.758,53.463,19.519,56.706,15.532,56.706z
-      M15.532,45.604c-2.128,0-3.876,1.75-3.876,3.883c0,2.129,1.748,3.879,3.876,3.879c2.141,0,3.886-1.75,
-      3.886-3.879C19.418,47.354,17.673,45.604,15.532,45.604z M64.137,56.706
-      c-3.987,0-7.219-3.242-7.219-7.197c0-3.998,3.231-7.224,7.219-7.224c3.977,0,7.208,3.226,7.208,7.224
-      C71.345,53.463,68.113,56.706,64.137,56.706z M64.137,45.604c-2.144,0-3.895,1.75-3.895,3.883c0,2.129,
-      1.751,3.879,3.895,3.879
-      c2.139,0,3.884-1.75,3.884-3.879C68.021,47.354,66.275,45.604,64.137,45.604z M78.138,44.091
-      c0-7.011-4.365-7.842-4.365-7.842
-      c-6.426-0.912-17.496-1.38-17.496-1.38c-1.016-1.766-5.707-12.039-8.44-12.039c-0.911,0-20.508,0-23.975,0
-      c-3.472,0-9.167,10.024-10.413,12.285c0,0-4.36,0.758-6.416,1.219c-1.142,0.265-4.301,0.324-4.301,9.155H0v3.997h6.654
-      c0-4.908,3.982-8.885,8.878-8.885c4.914,0,8.886,3.977,8.886,8.885h30.827c0-4.908,3.967-8.885,8.892-8.885
-      c4.898,0,8.875,3.977,8.875,8.885h6.524v-5.396H78.138z M35.589,34.191H21.751c1.872-5.831,5.339-9.994,6.801-9.994
-      c1.841,0,7.037,0,7.037,0V34.191z M38.168,34.191v-9.994c0,0,7.141,0,8.974,0c1.854,
-      0,5.893,8.461,7.032,10.625L38.168,34.191z"
-        />
-      </g>
-    </svg>
+ <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+   width="100" height="100" viewBox="0 0 1280.000000 640.000000"
+   preserveAspectRatio="xMidYMid meet">
+    <g transform="translate(0.000000,640.000000) scale(0.100000,-0.100000)"
+      fill="${color}" stroke="none">
+      <path d="M4235 5299 c-410 -26 -906 -96 -1140 -160 -136 -37 -293 -92 -495
+      -174 -234 -95 -347 -148 -1048 -483 l-272 -131 -438 -56 c-240 -31 -454 -61
+      -474 -66 -88 -23 -148 -157 -183 -409 -16 -117 -35 -427 -35 -595 l-1 -110
+      -32 -20 c-39 -25 -71 -80 -91 -159 -14 -57 -13 -77 9 -296 l24 -235 -30 -43
+      -31 -42 22 -45 c27 -57 125 -148 239 -223 l90 -59 238 -32 c131 -18 443 -62
+      693 -98 250 -36 506 -69 569 -72 l115 -6 12 -50 c7 -27 36 -96 64 -151 197
+      -392 691 -578 1190 -448 270 70 495 240 598 454 l47 97 186 -5 185 -5 33 42
+      33 42 337 -6 c185 -3 838 -10 1451 -15 613 -6 1543 -15 2065 -20 934 -10 952
+      -10 1065 10 63 11 124 22 135 25 17 3 29 -10 65 -73 53 -90 185 -229 279 -292
+      270 -181 643 -244 952 -159 235 64 435 219 545 421 l39 72 135 33 c95 23 254
+      47 540 82 l405 49 216 88 216 87 6 211 c3 126 12 249 22 306 28 157 7 286 -52
+      313 -15 7 -27 24 -33 51 -45 176 -182 437 -288 548 -144 151 -827 325 -1798
+      457 -321 44 -655 82 -929 106 l-179 15 -176 104 c-313 186 -695 393 -1067 579
+      -334 167 -765 368 -843 392 -265 83 -655 134 -1175 155 -288 11 -1831 11
+      -2010 -1z m1300 -191 c3 -13 41 -228 86 -478 51 -288 78 -467 74 -487 -7 -39
+      -44 -70 -93 -79 -20 -4 -257 1 -526 10 -601 20 -1090 38 -1093 40 -5 4 -104
+      888 -100 893 18 17 322 64 572 88 236 22 462 32 792 34 l283 1 5 -22z m942
+      -13 c353 -30 557 -72 834 -170 222 -79 502 -225 714 -373 87 -61 242 -179 249
+      -190 2 -4 -24 -7 -58 -8 -202 -2 -305 -242 -157 -367 l33 -27 -32 0 c-30 0
+      -182 6 -1205 50 -274 12 -475 24 -498 31 -44 15 -112 70 -131 108 -12 23 -228
+      629 -317 890 l-29 84 213 -7 c116 -4 289 -14 384 -21z m-2673 -142 c3 -21 26
+      -209 51 -418 25 -209 46 -389 48 -400 2 -18 -3 -20 -68 -17 -38 1 -216 7 -395
+      12 -179 6 -348 15 -377 21 -93 18 -163 86 -203 196 -55 153 17 248 305 404
+      162 88 381 175 575 228 55 15 58 13 64 -26z m-3343 -833 c114 -78 161 -144
+      194 -270 20 -78 30 -273 21 -401 l-8 -97 -219 -7 c-121 -4 -222 -5 -224 -3 -3
+      2 0 95 5 207 15 324 50 492 117 570 19 23 39 41 44 41 6 0 37 -18 70 -40z
+      m3349 -375 c18 -21 16 -64 -4 -83 -15 -15 -46 -17 -251 -17 -256 0 -267 2
+      -267 59 0 55 4 56 267 56 204 0 245 -2 255 -15z m2894 -71 c20 -19 20 -54 2
+      -80 -13 -18 -30 -19 -233 -22 -134 -2 -229 1 -246 7 -40 15 -54 53 -33 86 l16
+      25 240 0 c204 0 241 -2 254 -16z m5607 -340 c32 -31 76 -80 98 -108 41 -53
+      131 -204 131 -220 0 -9 -876 -3 -886 6 -7 8 132 292 152 309 39 33 69 41 212
+      54 244 21 225 23 293 -41z m-1734 -507 c115 -39 201 -93 285 -177 61 -63 86
+      -97 122 -172 61 -125 79 -213 73 -348 -6 -118 -28 -197 -84 -300 -156 -288
+      -504 -426 -818 -326 -109 35 -196 88 -279 172 -83 82 -136 168 -173 279 -23
+      70 -27 96 -27 210 0 114 4 140 27 210 78 237 273 415 512 469 102 23 268 15
+      362 -17z m-7473 -77 c232 -59 416 -233 493 -465 23 -69 27 -98 27 -205 1 -104
+      -3 -137 -22 -200 -72 -231 -248 -403 -487 -476 -92 -28 -276 -25 -375 5 -300
+      92 -501 361 -500 673 0 107 24 201 76 308 142 286 478 440 788 360z"/>
+    </g>
+  </svg>
 `;
 
 const renderCar = ({
@@ -151,7 +162,7 @@ const render = () => {
       <button type="button" class="btn header-garage-btn">garage</button>
       <button type="button" class="btn header-winners-btn">winners</button>
     </header>
-    <div id="garage-page">
+    <main id="garage-page">
       <div>
         <form class="form" id="create-form">
           <input class="input" id="create-name" name="name" type="text" />
@@ -180,19 +191,19 @@ const render = () => {
             value="#ffffff"
             disabled
           />
-          <button class="btn" id="update-btn" type="submit">Update</button>
+          <button class="btn" id="update-btn" type="submit" disabled >Update</button>
         </form>
       </div>
-      <div class="controls">
-        <button class="btn race-btn" id="race">Race</button>
-        <button class="btn reset-btn" id="reset" disabled>Reset</button>
-        <button class="btn generate-btn" id="generate">Generate</button>
-      </div>
+      <ul class="controls-list">
+        <li class="item" ><button class="btn race-btn" id="race">Race</button></li>
+        <li class="item" ><button class="btn reset-btn" id="reset" disabled>Reset</button></li>
+        <li class="item" ><button class="btn generate-btn" id="generate">Generate</button></li>
+      </ul>
       <div id="garage">${renderGarage()}</div>
       <div>
         <p class="win-message hidden" id="win-message"></p>
       </div>
-    </div>
+    </main>
     <div id="winners-page" style="display: none">${renderWinners()}</div>
     <div class="pagination">
       <button class="btn prev-button" disabled id="prev">←</button>
@@ -311,7 +322,7 @@ const stopDriving = async (id: number) => {
   startBtn.disabled = false;
 
   const car = refs.getCarElem(id);
-  car.style.transform = 'translateX(0)';
+  car.style.transform = 'translateX(0) translateY(37px)';
   if (store.animation[id]) window.cancelAnimationFrame(store.animation[id].id);
 };
 
@@ -374,17 +385,17 @@ refs.root.addEventListener('click', async event => {
 
   if (target.classList.contains('race-btn')) {
     const raceBtn = <HTMLButtonElement>event.target;
-    raceBtn.disabled = true;
-
-    const winner = await race(startDriving);
-    await saveWinner(winner);
-
     const winMessage = document.getElementById('win-message') as HTMLElement;
-    winMessage.innerHTML = `${winner.name} win for ${winner.time} secs!`;
-    winMessage.classList.remove('hidden');
+
+    raceBtn.disabled = true;
 
     const resetBtn = document.getElementById('reset') as HTMLButtonElement;
     resetBtn.disabled = false;
+
+    const winner = await race(startDriving);
+    winMessage.innerHTML = `${winner.name} win for ${winner.time} secs!`;
+    winMessage.classList.remove('hidden');
+    await saveWinner(winner);
   }
 
   if (target.classList.contains('reset-btn')) {
@@ -504,6 +515,7 @@ const updateForm = document.getElementById('update-form') as HTMLFormElement;
 updateForm.addEventListener('submit', async event => {
   event.preventDefault();
 
+  const updateBtn = document.getElementById('update-btn') as HTMLButtonElement;
   const garage = document.getElementById('garage') as HTMLDivElement;
   const nameInput = document.getElementById('update-name') as HTMLInputElement;
   const colorInput = document.getElementById(
@@ -517,6 +529,7 @@ updateForm.addEventListener('submit', async event => {
 
   garage.innerHTML = renderGarage();
   nameInput.value = '';
+  updateBtn.disabled = true;
   nameInput.disabled = true;
   colorInput.disabled = true;
   colorInput.value = '';

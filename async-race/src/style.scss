@@ -48,11 +48,21 @@ li {
 
 .header {
   padding-top: 16px;
+  padding-bottom: 30px;
 
-  margin-bottom: 30px;
+  display: flex;
 
   .title {
-    margin-bottom: 20px;
+    margin-right: 150px;
+  }
+
+  .btn {
+    height: 50px;
+    width: 200px;
+  }
+
+  .btn + .btn {
+    margin-left: 20px;
   }
 }
 
@@ -60,11 +70,10 @@ li {
   display: inline-block;
 
   width: 110px;
-  height: 45px;
+  height: 36px;
 
   font-size: 12px;
   font-weight: 500;
-  line-height: 45px;
   letter-spacing: 3px;
   text-transform: uppercase;
 
@@ -121,8 +130,19 @@ li {
 
 // CONTROLS
 
-.controls {
-  margin-bottom: 80px;
+.controls-list {
+  margin-bottom: 50px;
+
+  display: flex;
+  justify-content: center;
+
+  .item + .item {
+    margin-left: 40px;
+  }
+
+  .btn + .btn {
+    margin-left: 16px;
+  }
 }
 
 // CARS
@@ -132,7 +152,7 @@ li {
   .car {
     width: 100px;
 
-    padding-top: 14px;
+    transform: translateY(37px);
   }
 
   .car-model {
@@ -181,6 +201,7 @@ li {
 
     .engine-icon:disabled {
       color: gray;
+      cursor: auto;
     }
 
     .engine-icon.enabling {
@@ -201,7 +222,7 @@ li {
   .finish {
     margin-top: -80px;
 
-    transform: translateY(28px) translateX(-120px);
+    transform: translateY(52px) translateX(-120px);
 
     font-size: 60px;
   }
