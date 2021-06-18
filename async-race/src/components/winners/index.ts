@@ -65,3 +65,12 @@ export const updateWinners = async (): Promise<void> => {
     prevBtn.disabled = true;
   }
 };
+
+export const setSortOrder = async (sortBy: string): Promise<void> => {
+  store.sortOrder = store.sortOrder === 'asc' ? 'desc' : 'asc';
+  store.sortBy = sortBy;
+
+  await updateWinners();
+  const winnersPage = document.getElementById('winners-page') as HTMLDivElement;
+  winnersPage.innerHTML = renderWinners();
+};

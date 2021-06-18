@@ -1,6 +1,10 @@
 import { renderPage } from './components/page';
 import { renderGarage, updateGarage } from './components/garage';
-import { renderWinners, updateWinners } from './components/winners';
+import {
+  renderWinners,
+  updateWinners,
+  setSortOrder,
+} from './components/winners';
 import { startDriving, stopDriving } from './shared/driving';
 import refs from './shared/refs';
 import store from './servises/store';
@@ -20,15 +24,6 @@ let selectedCar: { name: string; color: string; id: number };
 renderPage();
 
 await updateGarage();
-
-const setSortOrder = async (sortBy: string) => {
-  store.sortOrder = store.sortOrder === 'asc' ? 'desc' : 'asc';
-  store.sortBy = sortBy;
-
-  await updateWinners();
-  const winnersPage = document.getElementById('winners-page') as HTMLDivElement;
-  winnersPage.innerHTML = renderWinners();
-};
 
 // MAIN LISTENER
 
