@@ -1,5 +1,5 @@
-import store from '../../servises/store';
-import { getWinners } from '../../servises/api';
+import store from '../../services/store';
+import { getWinners } from '../../services/api';
 import { renderCarImg } from '../car';
 
 export const renderWinners = (): string => `

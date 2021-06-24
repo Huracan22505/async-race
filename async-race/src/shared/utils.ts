@@ -1,6 +1,7 @@
-import store from '../servises/store';
+import { Car, Race } from './types';
+import store from '../services/store';
 
-// ANIMAION
+// ANIMATION
 
 const getElemPosition = (elem: HTMLElement) => {
   const { top, left, width, height } = elem.getBoundingClientRect();
@@ -116,12 +117,7 @@ export const raceAll = async (
   }>
   >,
   ids: number[],
-): Promise<{
-  name: string;
-  color: string;
-  id: number;
-  time: number;
-}> => {
+): Promise<Race> => {
   const { success, id, time } = await Promise.race(promises);
 
   if (!success) {
@@ -137,13 +133,8 @@ export const raceAll = async (
     return raceAll(restPromises, restIds);
   }
 
-  const winner: {
-    name: string;
-    color: string;
-    id: number;
-  } = store.cars.filter(
-    (car: { name: string; color: string; id: number }): boolean =>
-      car.id === id,
+  const winner: Car = store.cars.filter(
+    (car: Car): boolean => car.id === id,
   )[0];
 
   return {
@@ -158,12 +149,7 @@ export const race = async (action: {
     id: number;
     time: number;
   }>;
-}): Promise<{
-  name: string;
-  color: string;
-  id: number;
-  time: number;
-}> => {
+}): Promise<Race> => {
   const promises = store.cars.map(({ id }) => action(id));
 
   const winner = await raceAll(

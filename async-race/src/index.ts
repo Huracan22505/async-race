@@ -7,7 +7,7 @@ import {
 } from './components/winners';
 import { startDriving, stopDriving } from './shared/driving';
 import refs from './shared/refs';
-import store from './servises/store';
+import store from './services/store';
 import {
   getCreateCar,
   updateCar,
@@ -15,7 +15,7 @@ import {
   getCarById,
   getDeleteCarById,
   deleteWinner,
-} from './servises/api';
+} from './services/api';
 import { generateRandomCars, race } from './shared/utils';
 import './style.scss';
 

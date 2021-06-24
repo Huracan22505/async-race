@@ -1,6 +1,6 @@
 import refs from './refs';
-import store from '../servises/store';
-import { getStartEngine, getDriveStatus, getStopEngine } from '../servises/api';
+import store from '../services/store';
+import { getStartEngine, getDriveStatus, getStopEngine } from '../services/api';
 import { getDistanceBtwElements, animation } from './utils';
 
 export const startDriving = async (

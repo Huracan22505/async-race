@@ -1,8 +1,8 @@
 import refs from '../../shared/refs';
-import store from '../../servises/store';
+import store from '../../services/store';
 import { renderCar } from '../car';
 import { startDriving, stopDriving } from '../../shared/driving';
-import { getCars } from '../../servises/api';
+import { getCars } from '../../services/api';
 
 export const renderGarage = (): string => `
     <h2 class="title">Garage (${store.carsCount} cars)</h2>
