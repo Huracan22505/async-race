@@ -30,6 +30,7 @@ export const animation = (
   distanceBtwElem: number,
   animationTime: number,
 ): { id: number } => {
+  const targetCar = car;
   let start: number | null = null;
   const state: {
     id: number;
@@ -39,7 +40,7 @@ export const animation = (
     if (!start) start = timestamp;
     const time = timestamp - start;
     const passed = Math.round(time * (distanceBtwElem / animationTime));
-    car.style.transform = `translateX(${Math.min(
+    targetCar.style.transform = `translateX(${Math.min(
       passed,
       distanceBtwElem,
     )}px) translateY(52px)`;
