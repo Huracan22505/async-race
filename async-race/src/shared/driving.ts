@@ -1,7 +1,8 @@
 import refs from './refs';
 import store from '../services/store';
 import { getStartEngine, getDriveStatus, getStopEngine } from '../services/api';
-import { getDistanceBtwElements, animation } from './utils';
+import { getDistanceBtwElements, animation } from './utils/animation';
+import { Engine } from './types';
 
 export const startDriving = async (
   id: number,
@@ -14,13 +15,7 @@ export const startDriving = async (
   startBtn.disabled = true;
   startBtn.classList.toggle('enabling', true);
 
-  const {
-    velocity,
-    distance,
-  }: {
-    velocity: number;
-    distance: number;
-  } = await getStartEngine(id);
+  const { velocity, distance }: Engine = await getStartEngine(id);
 
   const time = Math.round(distance / velocity);
 

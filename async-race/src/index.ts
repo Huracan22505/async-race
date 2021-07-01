@@ -16,7 +16,8 @@ import {
   getDeleteCarById,
   deleteWinner,
 } from './services/api';
-import { generateRandomCars, race } from './shared/utils';
+import { generateRandomCars } from './shared/utils/generateCars';
+import { race } from './shared/utils/race';
 import './style.scss';
 
 let selectedCar: { name: string; color: string; id: number };
@@ -41,9 +42,7 @@ refs.root.addEventListener('click', async event => {
     const garage = document.getElementById('garage') as HTMLDivElement;
     garage.innerHTML = renderGarage();
     generateBtn.disabled = false;
-  }
-
-  if (target.classList.contains('race-btn')) {
+  } else if (target.classList.contains('race-btn')) {
     const raceBtn = <HTMLButtonElement>event.target;
     const winMessage = document.getElementById('win-message') as HTMLElement;
 
@@ -60,9 +59,7 @@ refs.root.addEventListener('click', async event => {
     setTimeout(() => {
       winMessage.classList.add('hidden');
     }, 3000);
-  }
-
-  if (target.classList.contains('reset-btn')) {
+  } else if (target.classList.contains('reset-btn')) {
     const resetBtn = <HTMLButtonElement>event.target;
 
     resetBtn.disabled = true;
@@ -72,9 +69,7 @@ refs.root.addEventListener('click', async event => {
     winMessage.classList.add('hidden');
     const raceBtn = document.getElementById('race') as HTMLButtonElement;
     raceBtn.disabled = false;
-  }
-
-  if (target.classList.contains('header-garage-btn')) {
+  } else if (target.classList.contains('header-garage-btn')) {
     const garagePage = document.getElementById('garage-page') as HTMLDivElement;
     const winnersPage = document.getElementById(
       'winners-page',
@@ -86,8 +81,7 @@ refs.root.addEventListener('click', async event => {
 
     garagePage.style.display = 'block';
     winnersPage.style.display = 'none';
-  }
-  if (target.classList.contains('header-winners-btn')) {
+  } else if (target.classList.contains('header-winners-btn')) {
     const garagePage = document.getElementById('garage-page') as HTMLDivElement;
     const winnersPage = document.getElementById(
       'winners-page',
@@ -154,8 +148,7 @@ refs.root.addEventListener('click', async event => {
 
   if (target.classList.contains('table-wins')) {
     setSortOrder('wins');
-  }
-  if (target.classList.contains('table-time')) {
+  } else if (target.classList.contains('table-time')) {
     setSortOrder('time');
   }
 
