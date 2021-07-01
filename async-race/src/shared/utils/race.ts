@@ -1,14 +1,8 @@
-import { Car, Race } from '../types';
+import { Car, Race, DrivingStatus } from '../types';
 import store from '../../services/store';
 
 export const raceAll = async (
-  promises: Array<
-  Promise<{
-    time: number;
-    id: number;
-    success: boolean;
-  }>
-  >,
+  promises: Array<Promise<DrivingStatus>>,
   ids: number[],
 ): Promise<Race> => {
   const { success, id, time } = await Promise.race(promises);
@@ -37,11 +31,7 @@ export const raceAll = async (
 };
 
 export const race = async (action: {
-  (id: number): Promise<{
-    success: boolean;
-    id: number;
-    time: number;
-  }>;
+  (id: number): Promise<DrivingStatus>;
 }): Promise<Race> => {
   const promises = store.cars.map(({ id }) => action(id));
 

@@ -1,4 +1,4 @@
-import { Cars, Car, Engine, Winner, Winners } from '../shared/types';
+import { Cars, SimpleCar, Car, Engine, Winner, Winners } from '../shared/types';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -33,10 +33,7 @@ export const getCreateCar = async (car: {
 export const getDeleteCarById = async (id: number): Promise<Car> =>
   (await fetch(`${BASE_URL}/garage/${id}`, { method: 'DELETE' })).json();
 
-export const updateCar = async (
-  id: number,
-  body: { name: string; color: string },
-): Promise<void> =>
+export const updateCar = async (id: number, body: SimpleCar): Promise<void> =>
   (
     await fetch(`${BASE_URL}/garage/${id}`, {
       method: 'PUT',
@@ -89,9 +86,9 @@ export const getWinners = async ({
 
   return {
     items: await Promise.all(
-      items.map(async (winner: { id: string }) => ({
+      items.map(async (winner: Winner) => ({
         ...winner,
-        car: await getCarById(winner.id),
+        car: await getCarById(winner.id.toString()),
       })),
     ),
     count: response.headers.get('X-Total-Count'),
@@ -104,11 +101,7 @@ export const getWinner = async (id: number): Promise<Winner> =>
 export const getWinnerStatus = async (id: number): Promise<number> =>
   (await fetch(`${BASE_URL}/winners/${id}`)).status;
 
-export const createWinner = async (body: {
-  id: number;
-  wins: number;
-  time: number;
-}): Promise<void> =>
+export const createWinner = async (body: Winner): Promise<void> =>
   (
     await fetch(`${BASE_URL}/winners`, {
       method: 'POST',
@@ -122,10 +115,7 @@ export const createWinner = async (body: {
 export const deleteWinner = async (id: number): Promise<void> =>
   (await fetch(`${BASE_URL}/winners/${id}`, { method: 'DELETE' })).json();
 
-export const updateWinner = async (
-  id: number,
-  body: { id: number; wins: number; time: number },
-): Promise<void> =>
+export const updateWinner = async (id: number, body: Winner): Promise<void> =>
   (
     await fetch(`${BASE_URL}/winners/${id}`, {
       method: 'PUT',

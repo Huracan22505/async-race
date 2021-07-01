@@ -2,15 +2,9 @@ import refs from './refs';
 import store from '../services/store';
 import { getStartEngine, getDriveStatus, getStopEngine } from '../services/api';
 import { getDistanceBtwElements, animation } from './utils/animation';
-import { Engine } from './types';
+import { Engine, DrivingStatus } from './types';
 
-export const startDriving = async (
-  id: number,
-): Promise<{
-  success: boolean;
-  id: number;
-  time: number;
-}> => {
+export const startDriving = async (id: number): Promise<DrivingStatus> => {
   const startBtn = refs.getStartBtn(id);
   startBtn.disabled = true;
   startBtn.classList.toggle('enabling', true);
