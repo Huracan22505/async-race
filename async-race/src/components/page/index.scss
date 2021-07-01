@@ -1,0 +1,122 @@
+// HEADER
+
+.header {
+  padding-top: 16px;
+  padding-bottom: 30px;
+
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 124px;
+    height: 70px;
+  }
+
+  .title {
+    margin-right: 20px;
+  }
+
+  .btn {
+    height: 50px;
+    width: 200px;
+  }
+
+  .btn + .btn {
+    margin-left: 20px;
+  }
+}
+
+// FORMS
+
+.forms-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  height: 50px;
+  width: 370px;
+
+  padding: 4px;
+
+  margin-bottom: 10px;
+
+  border: 2px solid transparent;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: rgb(90, 48, 48);
+
+  .input {
+    height: 30px;
+    width: 150px;
+
+    border: 0;
+  }
+
+  .color {
+    height: 26px;
+
+    border: 0;
+    border-radius: 4px;
+  }
+}
+
+// CONTROLS
+
+.controls-list {
+  margin-top: 10px;
+  margin-bottom: 50px;
+
+  display: flex;
+  justify-content: center;
+
+  .item + .item {
+    margin-left: 40px;
+  }
+
+  .btn + .btn {
+    margin-left: 16px;
+  }
+}
+
+// WIN MESSAGE
+
+.win-message {
+  position: fixed;
+  top: 50%;
+  left: calc(50% - 250px);
+
+  width: 500px;
+
+  font-size: 50px;
+  color: rgb(8, 8, 8);
+  text-align: center;
+  background-color: chartreuse;
+
+  border-radius: 8px;
+}
+
+// PAGINATION
+
+.pagination {
+  display: flex;
+  justify-content: center;
+
+  margin-bottom: 20px;
+
+  .btn {
+    width: 80px;
+
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  .btn + .btn {
+    margin-left: 30px;
+  }
+}

@@ -3,6 +3,7 @@ import store from '../../services/store';
 import { renderCar } from '../car';
 import { startDriving, stopDriving } from '../../shared/driving';
 import { getCars } from '../../services/api';
+import './index.scss';
 
 export const renderGarage = (): string => `
     <h2 class="title">Garage (${store.carsCount} cars)</h2>

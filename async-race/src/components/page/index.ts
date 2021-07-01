@@ -1,5 +1,6 @@
 import { renderGarage } from '../garage';
 import { renderWinners } from '../winners';
+import './index.scss';
 
 export const renderPage = (): void => {
   const markup = `
@@ -52,7 +53,7 @@ export const renderPage = (): void => {
         <p class="win-message hidden" id="win-message"></p>
       </div>
     </main>
-    <div id="winners-page" class="winners-page" style="display: none">${renderWinners()}</div>
+    <div id="winners-page" class="winners-page">${renderWinners()}</div>
     <div class="pagination">
       <button class="btn prev-button" disabled id="prev">←</button>
       <button class="btn next-button" disabled id="next">→</button>

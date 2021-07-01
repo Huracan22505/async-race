@@ -1,6 +1,7 @@
 import store from '../../services/store';
 import { getWinners } from '../../services/api';
 import { renderCarImg } from '../car';
+import './index.scss';
 
 export const renderWinners = (): string => `
   <h2>Winners (${store.winnersCount})</h2>
