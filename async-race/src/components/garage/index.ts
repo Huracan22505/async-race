@@ -17,20 +17,11 @@ export const updateGarage = async (): Promise<void> => {
   store.cars = items;
   store.carsCount = count;
 
-  if (store.carsPage * 7 < Number(store.carsCount)) {
-    const nextBtn = document.getElementById('next') as HTMLButtonElement;
-    nextBtn.disabled = false;
-  } else {
-    const nextBtn = document.getElementById('next') as HTMLButtonElement;
-    nextBtn.disabled = true;
-  }
-  if (store.carsPage > 1) {
-    const prevBtn = document.getElementById('prev') as HTMLButtonElement;
-    prevBtn.disabled = false;
-  } else {
-    const prevBtn = document.getElementById('prev') as HTMLButtonElement;
-    prevBtn.disabled = true;
-  }
+  const nextBtn = document.getElementById('next') as HTMLButtonElement;
+  nextBtn.disabled = store.carsPage * 7 >= Number(store.carsCount);
+
+  const prevBtn = document.getElementById('prev') as HTMLButtonElement;
+  prevBtn.disabled = store.carsPage <= 1;
 };
 
 refs.root.addEventListener('click', async event => {

@@ -50,20 +50,11 @@ export const updateWinners = async (): Promise<void> => {
   store.winners = items;
   store.winnersCount = count;
 
-  if (store.winnersPage * 10 < Number(store.winnersCount)) {
-    const nextBtn = document.getElementById('next') as HTMLButtonElement;
-    nextBtn.disabled = false;
-  } else {
-    const nextBtn = document.getElementById('next') as HTMLButtonElement;
-    nextBtn.disabled = true;
-  }
-  if (store.winnersPage > 1) {
-    const prevBtn = document.getElementById('prev') as HTMLButtonElement;
-    prevBtn.disabled = false;
-  } else {
-    const prevBtn = document.getElementById('prev') as HTMLButtonElement;
-    prevBtn.disabled = true;
-  }
+  const nextBtn = document.getElementById('next') as HTMLButtonElement;
+  nextBtn.disabled = store.winnersPage * 10 >= Number(store.winnersCount);
+
+  const prevBtn = document.getElementById('prev') as HTMLButtonElement;
+  prevBtn.disabled = store.winnersPage <= 1;
 };
 
 export const setSortOrder = async (sortBy: string): Promise<void> => {
