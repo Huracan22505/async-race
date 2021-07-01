@@ -81,7 +81,3 @@ export const renderCar = ({
     </div>
   </div>
 `;
-
-// refs.root.addEventListener('click', async event => {
-//   const target = <HTMLElement>event.target;
-// });
