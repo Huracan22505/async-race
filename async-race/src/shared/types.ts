@@ -22,7 +22,7 @@ export type Winner = {
 
 export type Winners = {
   items: Array<{
-    car: { name: string; color: string; id: number };
+    car: Car;
     id: number;
     time: number;
     wins: number;
