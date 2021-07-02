@@ -1,6 +1,7 @@
 import store from '../../services/store';
 import { getWinners } from '../../services/api';
 import { renderCarImg } from '../car';
+import { SortBy, SortOrder } from '../../shared/enums';
 import './index.scss';
 
 export const renderWinners = (): string => `
@@ -12,10 +13,10 @@ export const renderWinners = (): string => `
   <th>Car</th>
   <th>Model</th>
       <th class="table-button table-wins ${
-  store.sortBy === 'wins' ? store.sortOrder : ''
+  store.sortBy === SortBy.Wins ? store.sortOrder : ''
 }	id="sort-by-wins">Wins</th>
       <th class="table-button table-time ${
-  store.sortBy === 'time' ? store.sortOrder : ''
+  store.sortBy === SortBy.Time ? store.sortOrder : ''
 }	id="sort-by-time">Best time (sec)</th>
   </tr>
         ${store.winners
@@ -59,7 +60,8 @@ export const updateWinners = async (): Promise<void> => {
 };
 
 export const setSortOrder = async (sortBy: string): Promise<void> => {
-  store.sortOrder = store.sortOrder === 'asc' ? 'desc' : 'asc';
+  store.sortOrder =
+    store.sortOrder === SortOrder.Asc ? SortOrder.Desc : SortOrder.Asc;
   store.sortBy = sortBy;
 
   await updateWinners();
