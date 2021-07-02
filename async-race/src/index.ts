@@ -17,14 +17,152 @@ import {
   deleteWinner,
 } from './services/api';
 import { generateRandomCars } from './shared/utils/generateCars';
+import { View, SortBy } from './shared/enums';
 import { race } from './shared/utils/race';
 import './style.scss';
 
 let selectedCar: { name: string; color: string; id: number };
 
 renderPage();
-
 await updateGarage();
+
+const onGenerateBtnClick = async (event: MouseEvent) => {
+  const generateBtn = <HTMLButtonElement>event.target;
+  generateBtn.disabled = true;
+
+  const generatedCars = generateRandomCars();
+
+  await Promise.all(generatedCars.map(async car => getCreateCar(car)));
+  await updateGarage();
+  const garage = document.getElementById('garage') as HTMLDivElement;
+  garage.innerHTML = renderGarage();
+  generateBtn.disabled = false;
+};
+
+const onRaceBtnClick = async (event: MouseEvent) => {
+  const raceBtn = <HTMLButtonElement>event.target;
+  const winMessage = document.getElementById('win-message') as HTMLElement;
+
+  raceBtn.disabled = true;
+
+  const resetBtn = document.getElementById('reset') as HTMLButtonElement;
+  resetBtn.disabled = false;
+
+  const winner = await race(startDriving);
+  winMessage.innerHTML = `${winner.name} win for ${winner.time} secs!`;
+  winMessage.classList.remove('hidden');
+  await saveWinner(winner);
+
+  setTimeout(() => {
+    winMessage.classList.add('hidden');
+  }, 3000);
+};
+
+const onResetBtnClick = async (event: MouseEvent) => {
+  const resetBtn = <HTMLButtonElement>event.target;
+
+  resetBtn.disabled = true;
+
+  store.cars.map(({ id }) => stopDriving(id));
+  const winMessage = document.getElementById('win-message') as HTMLElement;
+  winMessage.classList.add('hidden');
+  const raceBtn = document.getElementById('race') as HTMLButtonElement;
+  raceBtn.disabled = false;
+};
+
+const onGarageBtnClick = async () => {
+  const garagePage = document.getElementById('garage-page') as HTMLDivElement;
+  const winnersPage = document.getElementById('winners-page') as HTMLDivElement;
+
+  await updateGarage();
+
+  store.view = View.Garage;
+
+  garagePage.style.display = 'block';
+  winnersPage.style.display = 'none';
+};
+
+const onWinnersBtnClick = async () => {
+  const garagePage = document.getElementById('garage-page') as HTMLDivElement;
+  const winnersPage = document.getElementById('winners-page') as HTMLDivElement;
+
+  winnersPage.style.display = 'block';
+  garagePage.style.display = 'none';
+  await updateWinners();
+
+  store.view = View.Winners;
+
+  winnersPage.innerHTML = renderWinners();
+};
+
+const onPrevBtnClick = async () => {
+  switch (store.view) {
+    case View.Garage: {
+      store.carsPage -= 1;
+      await updateGarage();
+
+      const garage = document.getElementById('garage') as HTMLDivElement;
+      garage.innerHTML = renderGarage();
+      break;
+    }
+    case View.Winners: {
+      store.winnersPage -= 1;
+      await updateWinners();
+
+      const winners = document.getElementById('winners-page') as HTMLDivElement;
+      winners.innerHTML = renderWinners();
+      break;
+    }
+    default:
+  }
+};
+
+const onNextBtnClick = async () => {
+  switch (store.view) {
+    case View.Garage: {
+      store.carsPage += 1;
+      await updateGarage();
+      const garage = document.getElementById('garage') as HTMLDivElement;
+
+      garage.innerHTML = renderGarage();
+      break;
+    }
+    case View.Winners: {
+      store.winnersPage += 1;
+      await updateWinners();
+      const winners = document.getElementById('winners-page') as HTMLDivElement;
+
+      winners.innerHTML = renderWinners();
+      break;
+    }
+    default:
+  }
+};
+
+const onSelectBtnClick = async (target: HTMLElement) => {
+  const carUpdName = document.getElementById('update-name') as HTMLInputElement;
+  const carUpdColor = document.getElementById(
+    'update-color',
+  ) as HTMLInputElement;
+  const updateBtn = document.getElementById('update-btn') as HTMLButtonElement;
+
+  selectedCar = await getCarById(target.id.split('select-car-')[1]);
+
+  carUpdName.value = selectedCar.name;
+  carUpdColor.value = selectedCar.color;
+  carUpdName.disabled = false;
+  carUpdColor.disabled = false;
+  updateBtn.disabled = false;
+};
+
+const omRemoveBtnClick = async (target: HTMLElement) => {
+  const id = Number(target.id.split('remove-car-')[1]);
+  await getDeleteCarById(id);
+  await deleteWinner(id);
+  await updateGarage();
+  const garage = document.getElementById('garage') as HTMLDivElement;
+  garage.innerHTML = renderGarage();
+};
 
 // MAIN LISTENER
 
@@ -32,153 +170,37 @@ refs.root.addEventListener('click', async event => {
   const target = <HTMLElement>event.target;
 
   if (target.classList.contains('generate-btn')) {
-    const generateBtn = <HTMLButtonElement>event.target;
-    generateBtn.disabled = true;
-
-    const generatedCars = generateRandomCars();
-
-    await Promise.all(generatedCars.map(async car => getCreateCar(car)));
-    await updateGarage();
-    const garage = document.getElementById('garage') as HTMLDivElement;
-    garage.innerHTML = renderGarage();
-    generateBtn.disabled = false;
+    onGenerateBtnClick(event);
   } else if (target.classList.contains('race-btn')) {
-    const raceBtn = <HTMLButtonElement>event.target;
-    const winMessage = document.getElementById('win-message') as HTMLElement;
-
-    raceBtn.disabled = true;
-
-    const resetBtn = document.getElementById('reset') as HTMLButtonElement;
-    resetBtn.disabled = false;
-
-    const winner = await race(startDriving);
-    winMessage.innerHTML = `${winner.name} win for ${winner.time} secs!`;
-    winMessage.classList.remove('hidden');
-    await saveWinner(winner);
-
-    setTimeout(() => {
-      winMessage.classList.add('hidden');
-    }, 3000);
+    onRaceBtnClick(event);
   } else if (target.classList.contains('reset-btn')) {
-    const resetBtn = <HTMLButtonElement>event.target;
-
-    resetBtn.disabled = true;
-
-    store.cars.map(({ id }) => stopDriving(id));
-    const winMessage = document.getElementById('win-message') as HTMLElement;
-    winMessage.classList.add('hidden');
-    const raceBtn = document.getElementById('race') as HTMLButtonElement;
-    raceBtn.disabled = false;
+    onResetBtnClick(event);
   } else if (target.classList.contains('header-garage-btn')) {
-    const garagePage = document.getElementById('garage-page') as HTMLDivElement;
-    const winnersPage = document.getElementById(
-      'winners-page',
-    ) as HTMLDivElement;
-
-    await updateGarage();
-
-    store.view = 'garage';
-
-    garagePage.style.display = 'block';
-    winnersPage.style.display = 'none';
+    onGarageBtnClick();
   } else if (target.classList.contains('header-winners-btn')) {
-    const garagePage = document.getElementById('garage-page') as HTMLDivElement;
-    const winnersPage = document.getElementById(
-      'winners-page',
-    ) as HTMLDivElement;
-
-    winnersPage.style.display = 'block';
-    garagePage.style.display = 'none';
-    await updateWinners();
-
-    store.view = 'winners';
-
-    winnersPage.innerHTML = renderWinners();
+    onWinnersBtnClick();
   }
 
   if (target.classList.contains('prev-button')) {
-    switch (store.view) {
-      case 'garage': {
-        store.carsPage -= 1;
-        await updateGarage();
-
-        const garage = document.getElementById('garage') as HTMLDivElement;
-        garage.innerHTML = renderGarage();
-        break;
-      }
-      case 'winners': {
-        store.winnersPage -= 1;
-        await updateWinners();
-
-        const winners = document.getElementById(
-          'winners-page',
-        ) as HTMLDivElement;
-        winners.innerHTML = renderWinners();
-        break;
-      }
-      default:
-        return;
-    }
+    onPrevBtnClick();
   }
 
   if (target.classList.contains('next-button')) {
-    switch (store.view) {
-      case 'garage': {
-        store.carsPage += 1;
-        await updateGarage();
-        const garage = document.getElementById('garage') as HTMLDivElement;
-
-        garage.innerHTML = renderGarage();
-        break;
-      }
-      case 'winners': {
-        store.winnersPage += 1;
-        await updateWinners();
-        const winners = document.getElementById(
-          'winners-page',
-        ) as HTMLDivElement;
-
-        winners.innerHTML = renderWinners();
-        break;
-      }
-      default:
-        return;
-    }
+    onNextBtnClick();
   }
 
   if (target.classList.contains('table-wins')) {
-    setSortOrder('wins');
+    setSortOrder(SortBy.Wins);
   } else if (target.classList.contains('table-time')) {
-    setSortOrder('time');
+    setSortOrder(SortBy.Time);
   }
 
   if (target.classList.contains('select-btn')) {
-    const carUpdName = document.getElementById(
-      'update-name',
-    ) as HTMLInputElement;
-    const carUpdColor = document.getElementById(
-      'update-color',
-    ) as HTMLInputElement;
-    const updateBtn = document.getElementById(
-      'update-btn',
-    ) as HTMLButtonElement;
-
-    selectedCar = await getCarById(target.id.split('select-car-')[1]);
-
-    carUpdName.value = selectedCar.name;
-    carUpdColor.value = selectedCar.color;
-    carUpdName.disabled = false;
-    carUpdColor.disabled = false;
-    updateBtn.disabled = false;
+    onSelectBtnClick(target);
   }
 
   if (target.classList.contains('remove-btn')) {
-    const id = Number(target.id.split('remove-car-')[1]);
-    await getDeleteCarById(id);
-    await deleteWinner(id);
-    await updateGarage();
-    const garage = document.getElementById('garage') as HTMLDivElement;
-    garage.innerHTML = renderGarage();
+    omRemoveBtnClick(target);
   }
 });
 
